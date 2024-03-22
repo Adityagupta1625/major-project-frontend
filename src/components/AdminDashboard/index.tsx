@@ -215,7 +215,7 @@ export default function AdminDashboard() {
                   <span className="grow py-2">Annoucements</span>
                 </a>
                 <a
-                  onClick={(e) => {
+                  onClick={() => {
                     setSideBarState(SideBarStates.CreateForm);
                     localStorage.setItem('Side Bar', SideBarStates.CreateForm);
                   }}
@@ -251,7 +251,7 @@ export default function AdminDashboard() {
                   <span className="grow py-2">Create Form</span>
                 </a>
                 <a
-                  onClick={(e) => {
+                  onClick={() => {
                     setSideBarState(SideBarStates.FormSubmission);
                     localStorage.setItem(
                       'Side Bar',

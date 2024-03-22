@@ -54,7 +54,7 @@ export function Form(props: PlacementFormProps) {
       value: string;
     }>
   >(defaultCourses);
-  const [deadline, setDeadline] = useState<Date>(props.data.deadline);
+  const [deadline, setDeadline] = useState<any>(props.data.deadline);
 
   const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     try {
@@ -85,7 +85,7 @@ export function Form(props: PlacementFormProps) {
           window.open(resp.url, '_blank');
         }
       } else if (props.type === FormType.UPDATE) {
-        const resp = await updatePlacementForm(
+        await updatePlacementForm(
           {
             title: title,
             departments: branches,
