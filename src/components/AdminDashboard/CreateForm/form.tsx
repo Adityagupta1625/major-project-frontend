@@ -1,4 +1,3 @@
-import TextField from '@/components/Forms/textfield';
 import { Button } from '@/components/ui/button';
 import {
   DialogContent,
@@ -6,6 +5,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
 import { FormType } from '@/constants/all.enum';
 import { allBranchOptions } from '@/constants/branches';
 import { allCoursesOptions } from '@/constants/courses';
@@ -115,14 +115,15 @@ export function Form(props: PlacementFormProps) {
           </DialogTitle>
         </DialogHeader>
         <div className="grid grid-cols-4 items-center gap-4">
-          <TextField
-            name="title"
+          <Input
+            className="w-96"
             type="text"
-            placeholder="Enter title"
+            placeholder="company name"
             value={title}
-            setValue={setTitle}
-            className="block w-96 rounded-lg border border-gray-200 px-5 py-3 leading-6 placeholder-gray-500 focus:border-blue-500 focus:ring-blue-500 focus:ring-opacity-50 "
-          ></TextField>
+            onChange={(e) => {
+              setTitle(e.target.value);
+            }}
+          />
         </div>
         <div className="grid grid-cols-4 items-center gap-4">
           <Select

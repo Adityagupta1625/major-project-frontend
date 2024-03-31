@@ -1,4 +1,3 @@
-import TextField from '@/components/Forms/textfield';
 import { Button } from '@/components/ui/button';
 import {
   DialogContent,
@@ -6,6 +5,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { FormType } from '@/constants/all.enum';
 import { addUpcomingCompanies } from '@/lib/upcomingCompanies/add';
 import { updateUpcomingCompanies } from '@/lib/upcomingCompanies/update';
@@ -72,34 +73,30 @@ export function UpcomingCompaniesForm(props: UpcomingCompaniesProps) {
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <TextField
-              name="name"
+            <Input
+              className="w-96"
               type="text"
-              placeholder="Enter name"
+              placeholder="company name"
               value={name}
-              setValue={setName}
-              className="block w-96 rounded-lg border border-gray-200 px-5 py-3 leading-6 placeholder-gray-500 focus:border-blue-500 focus:ring-blue-500 focus:ring-opacity-50 "
-            ></TextField>
+              onChange={(e) => {
+                setName(e.target.value);
+              }}
+            />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <textarea
-              name="description"
-              placeholder="Enter description"
+            <Textarea
+              rows={6}
+              cols={10}
               value={description}
+              className="w-96"
               onChange={(e) => {
                 setDescription(e.target.value);
               }}
-              rows={4}
-              cols={10}
-              className="block w-96 rounded-lg border border-gray-200 px-5 py-3 leading-6 placeholder-gray-500 focus:border-blue-500 focus:ring-blue-500 focus:ring-opacity-50 "
-            ></textarea>
+              placeholder="Description"
+            />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <input
-              type="file"
-              className="block w-96 rounded-lg border border-gray-200 px-5 py-3 leading-6 placeholder-gray-500 focus:border-blue-500 focus:ring-blue-500 focus:ring-opacity-50 "
-              onChange={handleFileChange}
-            ></input>
+            <Input type="file" onChange={handleFileChange} className="w-96" />
           </div>
         </div>
         <DialogFooter>

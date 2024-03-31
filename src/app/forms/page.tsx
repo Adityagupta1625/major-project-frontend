@@ -1,17 +1,17 @@
+import Form from '@/components/Dashboard/Forms';
 import Navbar from '@/components/Navbar';
-import UserProfile from '@/components/User Profilte';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'User Profile',
-  description: 'Profile Info',
+  title: 'Forms',
+  description: 'Forms',
 };
 
 const Page = () => {
   return (
     <>
-      <Navbar></Navbar>
-      <UserProfile></UserProfile>
+      <Navbar />
+      <Form />
     </>
   );
 };

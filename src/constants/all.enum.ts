@@ -15,3 +15,10 @@ export enum SideBarStates {
   CreateForm = 'Create Form',
   FormSubmission = 'Form Submission',
 }
+
+export enum DashboardStates {
+  Annoucement = 'Annoucement',
+  UpcomingCompanies = 'Upcoming Companies',
+  Forms = 'Forms',
+  Profile = 'Profile',
+}
