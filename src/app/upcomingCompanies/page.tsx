@@ -1,17 +1,17 @@
+import UpcomingCompanies from '@/components/Dashboard/upcomingCompanies';
 import Navbar from '@/components/Navbar';
-import UserProfile from '@/components/User Profilte';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'User Profile',
-  description: 'Profile Info',
+  title: 'Upcoming Companies',
+  description: 'Upcoming Companies',
 };
 
 const Page = () => {
   return (
     <>
-      <Navbar></Navbar>
-      <UserProfile></UserProfile>
+      <Navbar />
+      <UpcomingCompanies />
     </>
   );
 };

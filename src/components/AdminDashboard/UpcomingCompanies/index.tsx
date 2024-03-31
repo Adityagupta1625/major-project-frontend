@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { FormType } from '@/constants/all.enum';
 import { UpcomingCompaniesInterface } from '@/types/upcomingCompanies';
-import { DataTable } from '../../Table';
+import { DataTable } from '../../utils/Table';
 import { columns } from './columns';
 import { UpcomingCompaniesForm } from './form';
 
@@ -11,13 +11,13 @@ export default function UpcomingCompanies(props: {
 }) {
   return (
     <div className="flex flex-col w-full max-w-10xl p-4 lg:p-8">
-      <h1 className="text-3xl font-bold text-blue-700 text-center my-2 mb-6 p-2">
+      <h1 className="text-3xl font-bold text-black text-center my-2 mb-6 p-2">
         Upcoming Companies
       </h1>
       <div className="flex flex-row justify-end">
         <Dialog>
           <DialogTrigger asChild>
-            <Button className="bg-blue-700 rounded-lg text-md text-white mb-3 w-1/6 p-2 hover:bg-blue-900">
+            <Button className="bg-black rounded-lg text-md text-white mb-3 w-28 md:w-48 p-2 hover:bg-gray-700">
               {' '}
               Add{' '}
             </Button>

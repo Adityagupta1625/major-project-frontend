@@ -1,15 +1,59 @@
+'use client';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+
 export default function UserProfile() {
+  const [name, setName] = useState<string>('');
+  const [branch, setBranch] = useState<string>('');
+  const [department, setDepartment] = useState<string>('');
+  const [batch, setBatch] = useState<string>('');
+  const [rollNo, setRollNo] = useState<string>('');
+  const [newPassword, setNewPassword] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
+
+  const handleResetPassword = (e: React.MouseEvent<HTMLButtonElement>) => {
+    try {
+      e.preventDefault();
+      if (newPassword !== confirmPassword)
+        throw new Error('Passwords do not match');
+    } catch (e: any) {
+      toast.error(e);
+      console.log(e);
+    }
+  };
+
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    try {
+      e.preventDefault();
+    } catch (e: any) {
+      toast.error(e);
+      console.log(e);
+    }
+  };
+
   return (
     <>
-      {/* Page Partials: User Profile: With Cards */}
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <div className="space-y-4 text-gray-800 lg:space-y-8 bg-white">
-        {/* Vital Info */}
         <div className="flex flex-col overflow-hidden bg-white shadow-sm  ">
           <div className="grow p-5 md:flex lg:p-8">
             <div className="mb-5 border-b dark:border-gray-700 md:mb-0 md:w-1/3 md:flex-none md:border-0">
               <h3 className="mb-1 flex items-center justify-start space-x-2 font-semibold">
                 <svg
-                  className="hi-mini hi-user-circle inline-block size-5 text-blue-500"
+                  className="hi-mini hi-user-circle inline-block size-5 text-black"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"
                   fill="currentColor"
@@ -24,87 +68,76 @@ export default function UserProfile() {
                 <span>User Profile</span>
               </h3>
               <p className="mb-5 text-sm text-gray-500 dark:text-gray-400">
-                Your account’s vital info. Only your username and photo will be
-                publicly visible.
+                Your account’s vital info. Only your username will be publicly
+                visible.
               </p>
             </div>
             <div className="md:w-2/3 md:pl-24">
               <form className="space-y-6 xl:w-2/3">
                 <div className="space-y-1">
-                  <label className="font-medium">Photo</label>
-                  <div className="space-y-4 sm:flex sm:items-center sm:space-x-4 sm:space-y-0">
-                    <div className="inline-flex size-16 items-center justify-center rounded-full bg-gray-100 text-gray-300  dark:text-gray-500">
-                      <svg
-                        className="hi-solid hi-user inline-block size-8"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </div>
-                    <label className="block">
-                      <span className="sr-only">Choose profile photo</span>
-                      <input
-                        type="file"
-                        id="photo"
-                        name="photo"
-                        className="block w-full text-sm text-gray-500 file:mr-4 file:rounded file:border-0 file:bg-blue-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-blue-700 hover:file:bg-blue-100 dark:text-gray-400 dark:file:bg-blue-200 dark:file:text-blue-800 dark:hover:file:bg-blue-300"
-                      />
-                    </label>
-                  </div>
-                </div>
-                <div className="space-y-1">
-                  <label htmlFor="Roll Number" className="font-medium">
-                    Roll Number
-                  </label>
-                  <input
+                  <Input
                     type="text"
-                    id="Roll Number"
-                    name="Roll Number"
-                    placeholder="20113008"
-                    className="block w-full rounded-lg border border-gray-200 px-3 py-2 leading-6 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 "
+                    placeholder="Name"
+                    value={name}
+                    onChange={(e) => {
+                      setName(e.target.value);
+                    }}
                   />
                 </div>
+
                 <div className="space-y-1">
-                  <label htmlFor="name" className="font-medium">
-                    Name
-                  </label>
-                  <input
+                  <Input
                     type="text"
-                    id="name"
-                    name="name"
-                    placeholder="Aman Jain"
-                    className="block w-full rounded-lg border border-gray-200 px-3 py-2 leading-6 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 "
+                    placeholder="Roll No"
+                    value={rollNo}
+                    onChange={(e) => {
+                      setRollNo(e.target.value);
+                    }}
                   />
                 </div>
+
                 <div className="space-y-1">
-                  <label htmlFor="email" className="font-medium">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    placeholder="aman@nitj.ac.in"
-                    className="block w-full rounded-lg border border-gray-200 px-3 py-2 leading-6 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 "
-                  />
-                </div>
-                <div className="space-y-1">
-                  <label htmlFor="branch" className="font-medium">
-                    Branch
-                  </label>
-                  <input
+                  <Input
                     type="text"
-                    id="branch"
-                    name="branch"
-                    placeholder="IPE"
-                    className="block w-full rounded-lg border border-gray-200 px-3 py-2 leading-6 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                    placeholder="Branch"
+                    value={branch}
+                    onChange={(e) => {
+                      setBranch(e.target.value);
+                    }}
                   />
+                </div>
+
+                <div className="space-y-1">
+                  <Input
+                    type="text"
+                    placeholder="Department"
+                    value={department}
+                    onChange={(e) => {
+                      setDepartment(e.target.value);
+                    }}
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <Input
+                    type="text"
+                    placeholder="Batch"
+                    value={batch}
+                    onChange={(e) => {
+                      setBatch(e.target.value);
+                    }}
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <Button
+                    onClick={(e) => {
+                      handleSubmit(e);
+                    }}
+                  >
+                    {' '}
+                    Update{' '}
+                  </Button>
                 </div>
               </form>
             </div>
@@ -118,7 +151,7 @@ export default function UserProfile() {
             <div className="mb-5 border-b dark:border-gray-700 md:mb-0 md:w-1/3 md:flex-none md:border-0">
               <h3 className="mb-1 flex items-center justify-start space-x-2 font-semibold">
                 <svg
-                  className="hi-mini hi-lock-closed inline-block size-5 text-blue-500"
+                  className="hi-mini hi-lock-closed inline-block size-5 text-black"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"
                   fill="currentColor"
@@ -140,44 +173,33 @@ export default function UserProfile() {
             <div className="md:w-2/3 md:pl-24">
               <form className="space-y-6 xl:w-2/3">
                 <div className="space-y-1">
-                  <label htmlFor="password" className="font-medium">
-                    Current Password
-                  </label>
-                  <input
+                  <Input
                     type="password"
-                    id="password"
-                    name="password"
-                    className="block w-full rounded-lg border border-gray-200 px-3 py-2 leading-6 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 "
+                    placeholder="Password"
+                    value={newPassword}
+                    onChange={(e) => {
+                      setNewPassword(e.target.value);
+                    }}
                   />
                 </div>
                 <div className="space-y-1">
-                  <label htmlFor="password_new" className="font-medium">
-                    New Password
-                  </label>
-                  <input
+                  <Input
                     type="password"
-                    id="password_new"
-                    name="password_new"
-                    className="block w-full rounded-lg border border-gray-200 px-3 py-2 leading-6 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                    placeholder="Confirm Password"
+                    value={confirmPassword}
+                    onChange={(e) => {
+                      setConfirmPassword(e.target.value);
+                    }}
                   />
                 </div>
-                <div className="space-y-1">
-                  <label htmlFor="password_new_confirm" className="font-medium">
-                    Confirm Password
-                  </label>
-                  <input
-                    type="password"
-                    id="password_new_confirm"
-                    name="password_new_confirm"
-                    className="block w-full rounded-lg border border-gray-200 px-3 py-2 leading-6 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="inline-flex items-center justify-center space-x-2 rounded-lg border border-blue-700 bg-blue-700 px-3 py-2 text-sm font-semibold leading-5 text-white hover:border-blue-600 hover:bg-blue-600 hover:text-white focus:ring focus:ring-blue-400 focus:ring-opacity-50 active:border-blue-700 active:bg-blue-700 "
+                <Button
+                  onClick={(e) => {
+                    handleResetPassword(e);
+                  }}
                 >
-                  Update Password
-                </button>
+                  {' '}
+                  Reset Password{' '}
+                </Button>
               </form>
             </div>
           </div>

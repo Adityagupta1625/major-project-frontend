@@ -14,7 +14,7 @@ export default function LoginForm() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const router = useRouter();
-  const [cookies, setCookies] = useCookies(['token']);
+  const [, setCookies] = useCookies(['token']);
 
   const handleLogin = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -37,6 +37,7 @@ export default function LoginForm() {
       setEmail('');
       setPassword('');
       setCookies('token', data.token, { path: '/' });
+
       if (data.role === Roles.STUDENT || data.role === Roles.PR) {
         router.push('/');
       } else {

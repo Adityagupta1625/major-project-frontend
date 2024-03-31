@@ -1,8 +1,11 @@
 'use client';
-import { SideBarStates } from '@/constants/all.enum';
+import { Roles, SideBarStates } from '@/constants/all.enum';
 import { getAllAnnoucements } from '@/lib/annoucements/get';
 import { getAllPlacementForms } from '@/lib/placementForm/get';
 import { getAllUpcomingCompanies } from '@/lib/upcomingCompanies/get';
+import { getUser } from '@/lib/user/get';
+import { User } from '@/types/user';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { ToastContainer } from 'react-toastify';
@@ -15,26 +18,45 @@ export default function AdminDashboard() {
   const [desktopSidebarOpen, setDesktopSidebarOpen] = useState(true);
   const [sideBarState, setSideBarState] = useState(SideBarStates.Dashboard);
   const [data, setData] = useState<any>([]);
+  // eslint-disable-next-line no-unused-vars
   const [cookies, setCookies] = useCookies(['token']);
+  const router = useRouter();
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const val = localStorage.getItem('Side Bar');
-      if (
-        typeof val !== 'undefined' &&
-        val !== null &&
-        Object.keys(SideBarStates).includes(val)
-      ) {
-        setSideBarState(val as SideBarStates);
-      }
+    if (cookies.token === undefined) {
+      router.push('/login');
     }
+
+    getUser(cookies.token)
+      .then((data: User) => {
+        if (data.role !== Roles.TPO) {
+          router.push('/');
+        } else {
+          if (typeof window !== 'undefined') {
+            const val = localStorage.getItem('Side Bar');
+            if (
+              typeof val !== 'undefined' &&
+              val !== null &&
+              Object.keys(SideBarStates).includes(val)
+            ) {
+              setSideBarState(val as SideBarStates);
+            }
+          }
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        router.push('/login');
+      });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (sideBarState === SideBarStates.Dashboard) {
       (async () => {
         try {
-          const resp = await getAllUpcomingCompanies(cookies?.token);
+          const resp = await getAllUpcomingCompanies(cookies.token);
           setData(resp);
         } catch (e) {
           console.log(e);
@@ -43,7 +65,7 @@ export default function AdminDashboard() {
     } else if (sideBarState === SideBarStates.Annoucement) {
       (async () => {
         try {
-          const resp = await getAllAnnoucements(cookies?.token);
+          const resp = await getAllAnnoucements(cookies.token);
           setData(resp);
         } catch (e) {
           console.log(e);
@@ -52,13 +74,14 @@ export default function AdminDashboard() {
     } else if (sideBarState === SideBarStates.CreateForm) {
       (async () => {
         try {
-          const resp = await getAllPlacementForms(cookies?.token);
+          const resp = await getAllPlacementForms(cookies.token);
           setData(resp);
         } catch (e) {
           console.log(e);
         }
       })();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sideBarState]);
 
   return (
@@ -78,7 +101,7 @@ export default function AdminDashboard() {
       />
       <div
         id="page-container"
-        className={`mx-auto flex min-h-dvh w-full min-w-[320px] flex-col bg-gray-100 ${
+        className={`mx-auto flex min-h-dvh w-full min-w-[320px] flex-col ${
           desktopSidebarOpen ? 'lg:pl-64' : ''
         }`}
       >
@@ -99,7 +122,7 @@ export default function AdminDashboard() {
               className="group inline-flex items-center space-x-2 text-lg font-bold tracking-wide text-gray-900 hover:text-gray-600 "
             >
               <svg
-                className="hi-mini hi-cube-transparent inline-block size-5 text-blue-600 transition group-hover:scale-110 "
+                className="hi-mini hi-cube-transparent inline-block size-5 text-black transition group-hover:scale-110 "
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
                 fill="currentColor"
@@ -148,15 +171,15 @@ export default function AdminDashboard() {
                   }}
                   className={
                     SideBarStates.Dashboard === sideBarState
-                      ? 'group flex items-center space-x-2 rounded-lg border border-transparent px-2.5 text-sm font-medium text-gray-900 bg-blue-50 border-blue-100'
-                      : 'group flex items-center space-x-2 rounded-lg border border-transparent px-2.5 text-sm font-medium text-gray-800 hover:bg-blue-50 hover:text-gray-900 active:border-blue-100 bg-white'
+                      ? 'group flex items-center space-x-2 rounded-lg border border-transparent px-2.5 text-sm font-medium text-gray-900 bg-gray-100 border-gray-100'
+                      : 'group flex items-center space-x-2 rounded-lg border border-transparent px-2.5 text-sm font-medium text-gray-800 hover:bg-gray-50 hover:text-gray-900 active:border-gray-100 bg-white'
                   }
                 >
                   <span
                     className={
                       SideBarStates.Dashboard === sideBarState
-                        ? 'flex flex-none items-center text-blue-500'
-                        : 'flex flex-none items-center group-hover:text-blue-500 text-gray-400 cursor-pointer'
+                        ? 'flex flex-none items-center text-gray-500'
+                        : 'flex flex-none items-center group-hover:text-gray-500 text-gray-400 cursor-pointer'
                     }
                   >
                     <svg
@@ -185,15 +208,15 @@ export default function AdminDashboard() {
                   }}
                   className={
                     SideBarStates.Annoucement === sideBarState
-                      ? 'group flex items-center space-x-2 rounded-lg border border-transparent px-2.5 text-sm font-medium text-gray-900 bg-blue-50 border-blue-100 cursor-pointer'
-                      : 'group flex items-center space-x-2 rounded-lg border border-transparent px-2.5 text-sm font-medium text-gray-800 hover:bg-blue-50 hover:text-gray-900 active:border-blue-100 bg-white cursor-pointer'
+                      ? 'group flex items-center space-x-2 rounded-lg border border-transparent px-2.5 text-sm font-medium text-gray-900 bg-gray-100 border-gray-100 cursor-pointer'
+                      : 'group flex items-center space-x-2 rounded-lg border border-transparent px-2.5 text-sm font-medium text-gray-800 hover:bg-gray-50 hover:text-gray-900 active:border-gray-100 bg-white cursor-pointer'
                   }
                 >
                   <span
                     className={
                       SideBarStates.Annoucement === sideBarState
-                        ? 'flex flex-none items-center text-blue-500'
-                        : 'flex flex-none items-center group-hover:text-blue-500 text-gray-400 cursor-pointer'
+                        ? 'flex flex-none items-center text-gray-500'
+                        : 'flex flex-none items-center group-hover:text-gray-500 text-gray-400 cursor-pointer'
                     }
                   >
                     <svg
@@ -221,15 +244,15 @@ export default function AdminDashboard() {
                   }}
                   className={
                     SideBarStates.CreateForm === sideBarState
-                      ? 'group flex items-center space-x-2 rounded-lg border border-transparent px-2.5 text-sm font-medium text-gray-900 bg-blue-50 border-blue-100 cursor-pointer'
-                      : 'group flex items-center space-x-2 rounded-lg border border-transparent px-2.5 text-sm font-medium text-gray-800 hover:bg-blue-50 hover:text-gray-900 active:border-blue-100 bg-white cursor-pointer'
+                      ? 'group flex items-center space-x-2 rounded-lg border border-transparent px-2.5 text-sm font-medium text-gray-900 bg-gray-100 border-gray-100 cursor-pointer'
+                      : 'group flex items-center space-x-2 rounded-lg border border-transparent px-2.5 text-sm font-medium text-gray-800 hover:bg-gray-50 hover:text-gray-900 active:border-gray-100 bg-white cursor-pointer'
                   }
                 >
                   <span
                     className={
                       SideBarStates.CreateForm === sideBarState
-                        ? 'flex flex-none items-center text-blue-500 cursor-pointer'
-                        : 'flex flex-none items-center group-hover:text-blue-500 text-gray-400 cursor-pointer'
+                        ? 'flex flex-none items-center text-gray-500 cursor-pointer'
+                        : 'flex flex-none items-center group-hover:text-gray-500 text-gray-400 cursor-pointer'
                     }
                   >
                     <svg
@@ -260,15 +283,15 @@ export default function AdminDashboard() {
                   }}
                   className={
                     SideBarStates.FormSubmission === sideBarState
-                      ? 'group flex items-center space-x-2 rounded-lg border border-transparent px-2.5 text-sm font-medium text-gray-900 bg-blue-50 border-blue-100 cursor-pointer'
-                      : 'group flex items-center space-x-2 rounded-lg border border-transparent px-2.5 text-sm font-medium text-gray-800 hover:bg-blue-50 hover:text-gray-900 active:border-blue-100 bg-white cursor-pointer'
+                      ? 'group flex items-center space-x-2 rounded-lg border border-transparent px-2.5 text-sm font-medium text-gray-900 bg-gray-100 border-gray-100 cursor-pointer'
+                      : 'group flex items-center space-x-2 rounded-lg border border-transparent px-2.5 text-sm font-medium text-gray-800 hover:bg-gray-50 hover:text-gray-900 active:border-gray-100 bg-white cursor-pointer'
                   }
                 >
                   <span
                     className={
                       SideBarStates.FormSubmission === sideBarState
-                        ? 'flex flex-none items-center text-blue-500'
-                        : 'flex flex-none items-center group-hover:text-blue-500 text-gray-400 cursor-pointer'
+                        ? 'flex flex-none items-center text-gray-500'
+                        : 'flex flex-none items-center group-hover:text-gray-500 text-gray-400 cursor-pointer'
                     }
                   >
                     <svg
@@ -288,34 +311,6 @@ export default function AdminDashboard() {
                     </svg>
                   </span>
                   <span className="grow py-2">Form Submission</span>
-                </a>
-
-                <div className="px-3 pb-2 pt-5 text-xs font-semibold uppercase tracking-wider text-gray-500">
-                  Account
-                </div>
-
-                <a
-                  href="#"
-                  className="group flex items-center space-x-2 rounded-lg border border-transparent px-2.5 text-sm font-medium text-gray-800 hover:bg-blue-50 hover:text-gray-900 active:border-blue-100 "
-                >
-                  <span className="flex flex-none items-center text-gray-400 group-hover:text-blue-500 ">
-                    <svg
-                      className="hi-outline hi-lock-closed inline-block size-5"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                      stroke="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
-                      />
-                    </svg>
-                  </span>
-                  <span className="grow py-2">Log out</span>
                 </a>
               </nav>
             </div>
@@ -379,54 +374,11 @@ export default function AdminDashboard() {
                 </button>
               </div>
               {/* END Toggle Sidebar on Mobile */}
-
-              {/* Search */}
-
-              <div className="lg:hidden">
-                <button
-                  type="button"
-                  className="inline-flex items-center justify-center space-x-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-semibold leading-5 text-gray-800 hover:border-gray-300 hover:text-gray-900 hover:shadow-sm focus:ring focus:ring-gray-300 focus:ring-opacity-25 active:border-gray-200 active:shadow-none "
-                >
-                  <svg
-                    className="hi-solid hi-search inline-block size-5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </button>
-              </div>
-              {/* END Search */}
             </div>
             {/* END Left Section */}
 
             {/* Center Section */}
-            <div className="flex items-center lg:hidden">
-              <a
-                href="#"
-                className="group inline-flex items-center space-x-2 text-lg font-bold tracking-wide text-gray-900 hover:text-gray-600 "
-              >
-                <svg
-                  className="hi-mini hi-cube-transparent inline-block size-5 text-blue-600 transition group-hover:scale-110 "
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M9.638 1.093a.75.75 0 01.724 0l2 1.104a.75.75 0 11-.724 1.313L10 2.607l-1.638.903a.75.75 0 11-.724-1.313l2-1.104zM5.403 4.287a.75.75 0 01-.295 1.019l-.805.444.805.444a.75.75 0 01-.724 1.314L3.5 7.02v.73a.75.75 0 01-1.5 0v-2a.75.75 0 01.388-.657l1.996-1.1a.75.75 0 011.019.294zm9.194 0a.75.75 0 011.02-.295l1.995 1.101A.75.75 0 0118 5.75v2a.75.75 0 01-1.5 0v-.73l-.884.488a.75.75 0 11-.724-1.314l.806-.444-.806-.444a.75.75 0 01-.295-1.02zM7.343 8.284a.75.75 0 011.02-.294L10 8.893l1.638-.903a.75.75 0 11.724 1.313l-1.612.89v1.557a.75.75 0 01-1.5 0v-1.557l-1.612-.89a.75.75 0 01-.295-1.019zM2.75 11.5a.75.75 0 01.75.75v1.557l1.608.887a.75.75 0 01-.724 1.314l-1.996-1.101A.75.75 0 012 14.25v-2a.75.75 0 01.75-.75zm14.5 0a.75.75 0 01.75.75v2a.75.75 0 01-.388.657l-1.996 1.1a.75.75 0 11-.724-1.313l1.608-.887V12.25a.75.75 0 01.75-.75zm-7.25 4a.75.75 0 01.75.75v.73l.888-.49a.75.75 0 01.724 1.313l-2 1.104a.75.75 0 01-.724 0l-2-1.104a.75.75 0 11.724-1.313l.888.49v-.73a.75.75 0 01.75-.75z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                <span className="hidden sm:inline">Company</span>
-              </a>
-            </div>
+
             {/* END Center Section */}
           </div>
         </header>
@@ -436,7 +388,7 @@ export default function AdminDashboard() {
 
         <main
           id="page-content"
-          className="flex max-w-full flex-auto flex-col pt-16 bg-gray-50"
+          className="flex max-w-full flex-auto flex-col pt-16"
         >
           {sideBarState === SideBarStates.Dashboard ? (
             <UpcomingCompanies data={data}></UpcomingCompanies>
