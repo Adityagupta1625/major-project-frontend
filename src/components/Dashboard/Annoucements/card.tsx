@@ -1,11 +1,21 @@
+import { useRouter } from 'next/navigation';
+
 export default function Card(props: {
   title: string;
   description: string;
   date: Date;
   doc: string | null;
+  _id: string;
 }) {
+  const router = useRouter();
+
   return (
-    <div className="flex flex-col overflow-hidden rounded-lg bg-white shadow-sm border-2 border-gray-100">
+    <div
+      className="flex flex-col overflow-hidden rounded-lg bg-white shadow-sm border-2 border-gray-100 cursor-pointer"
+      onClick={() => {
+        router.push(`/view/${props._id}`);
+      }}
+    >
       <div className="bg-gray-50 px-5 py-4">
         <h3 className="flex flex-row font-medium justify-between">
           <span> {props.title} </span>

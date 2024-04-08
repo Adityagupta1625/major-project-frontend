@@ -72,6 +72,7 @@ export const columns: ColumnDef<AnnoucementsInterface>[] = [
                     _id: row.original._id,
                     description: row.original.description,
                     doc: row.original.doc,
+                    createdAt: row.original.createdAt,
                   }}
                 />
               </Dialog>
