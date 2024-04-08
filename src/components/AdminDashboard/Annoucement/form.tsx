@@ -67,8 +67,7 @@ export function AnnoucementsForm(props: AnnoucementsProps) {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>
-            {props.type === FormType.ADD ? 'Add' : ' View & Edit'} Upcoming
-            Companies
+            {props.type === FormType.ADD ? 'Add' : ' View & Edit'} Annoucements
           </DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">

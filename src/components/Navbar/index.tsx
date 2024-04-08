@@ -209,6 +209,11 @@ export default function Navbar() {
                                     ? 'bg-blue-50 text-blue-800 '
                                     : 'text-gray-700 hover:bg-blue-50 hover:text-blue-800 active:border-blue-100 '
                                 }`}
+                                onClick={() => {
+                                  console.log('sign out');
+                                  removeCookie('token', { path: '/' });
+                                  router.push('/login');
+                                }}
                               >
                                 <svg
                                   className="hi-mini hi-lock-closed inline-block size-5 flex-none opacity-25 group-hover:opacity-50"
@@ -221,11 +226,6 @@ export default function Navbar() {
                                     fillRule="evenodd"
                                     d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z"
                                     clipRule="evenodd"
-                                    onClick={() => {
-                                      removeCookie('token', { path: '/' });
-
-                                      router.push('/login');
-                                    }}
                                   />
                                 </svg>
                                 <span className="grow">Sign out</span>

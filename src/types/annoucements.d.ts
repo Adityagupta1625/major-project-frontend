@@ -9,4 +9,5 @@ export interface AnnoucementsInterface {
   description: string;
   doc: string;
   _id: string;
+  createdAt: Date;
 }

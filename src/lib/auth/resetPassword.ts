@@ -11,7 +11,7 @@ export const resetPassword = (email: string, password: string) => {
         resolve(res.data);
       })
       .catch((err) => {
-        reject(err);
+        reject(err.message ?? 'Something Went Wrong');
       });
   });
 };

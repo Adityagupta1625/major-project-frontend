@@ -1,34 +1,98 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useState } from 'react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { allBranchOptions } from '@/constants/branches';
+import { allCoursesOptions } from '@/constants/courses';
+import { resetPassword } from '@/lib/auth/resetPassword';
+import { getUserProfile } from '@/lib/userProfile/get';
+import { updateUserProfile } from '@/lib/userProfile/update';
+import { User } from '@/types/user';
+import { useEffect, useState } from 'react';
+import { useCookies } from 'react-cookie';
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function UserProfile() {
-  const [name, setName] = useState<string>('');
-  const [branch, setBranch] = useState<string>('');
-  const [department, setDepartment] = useState<string>('');
-  const [batch, setBatch] = useState<string>('');
-  const [rollNo, setRollNo] = useState<string>('');
+  const [name, setName] = useState<string | null>(null);
+  const [course, setCourse] = useState<string | null>(null);
+  const [department, setDepartment] = useState<string | null>(null);
+  const [batch, setBatch] = useState<string | null>(null);
+  const [rollNo, setRollNo] = useState<string | null>(null);
   const [newPassword, setNewPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
+  const [cookies, setCookies] = useCookies(['token']);
+  const [user, setUser] = useState<User | null>(null);
 
-  const handleResetPassword = (e: React.MouseEvent<HTMLButtonElement>) => {
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setUser(JSON.parse(window.sessionStorage.getItem('user') as string));
+    }
+
+    getUserProfile(cookies.token)
+      .then((result) => {
+        if (result !== null) {
+          setCourse(result.course);
+          setName(result.name);
+          setBatch(result.batch);
+          setDepartment(result.department);
+          setRollNo(result.rollNo);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
+
+  const handleResetPassword = async (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
     try {
       e.preventDefault();
+
+      if (newPassword === '') throw new Error('New Password is required');
+
       if (newPassword !== confirmPassword)
         throw new Error('Passwords do not match');
+
+      await resetPassword(user?.email as string, newPassword);
+      toast.success('Password reset successful');
+      setConfirmPassword('');
+      setNewPassword('');
     } catch (e: any) {
-      toast.error(e);
+      toast.error(e?.message);
       console.log(e);
     }
   };
 
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     try {
       e.preventDefault();
+
+      const data = await updateUserProfile({
+        rollNo: rollNo,
+        course: course,
+        department: department,
+        batch: batch,
+        name: name,
+        userId: user?._id as string,
+      });
+
+      toast.success('Details updated Successfully!!');
+
+      setRollNo(data.rollNo);
+      setBatch(data.batch);
+      setName(data.name);
+      setCourse(data.course);
+      setDepartment(data.department);
     } catch (e: any) {
-      toast.error(e);
+      toast.error(e?.message);
       console.log(e);
     }
   };
@@ -68,8 +132,7 @@ export default function UserProfile() {
                 <span>User Profile</span>
               </h3>
               <p className="mb-5 text-sm text-gray-500 dark:text-gray-400">
-                Your account’s vital info. Only your username will be publicly
-                visible.
+                Your account’s vital info.
               </p>
             </div>
             <div className="md:w-2/3 md:pl-24">
@@ -78,7 +141,8 @@ export default function UserProfile() {
                   <Input
                     type="text"
                     placeholder="Name"
-                    value={name}
+                    value={name ?? ''}
+                    disabled={name !== null}
                     onChange={(e) => {
                       setName(e.target.value);
                     }}
@@ -89,7 +153,8 @@ export default function UserProfile() {
                   <Input
                     type="text"
                     placeholder="Roll No"
-                    value={rollNo}
+                    value={rollNo ?? ''}
+                    disabled={rollNo !== null}
                     onChange={(e) => {
                       setRollNo(e.target.value);
                     }}
@@ -97,32 +162,57 @@ export default function UserProfile() {
                 </div>
 
                 <div className="space-y-1">
-                  <Input
-                    type="text"
-                    placeholder="Branch"
-                    value={branch}
-                    onChange={(e) => {
-                      setBranch(e.target.value);
+                  <Select
+                    onValueChange={(e) => {
+                      setCourse(e);
                     }}
-                  />
+                    value={course ?? ''}
+                    disabled={course !== null}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Course" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {allCoursesOptions.map((option, key) => {
+                        return (
+                          <SelectItem key={key} value={option.value}>
+                            {option.label}
+                          </SelectItem>
+                        );
+                      })}
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 <div className="space-y-1">
-                  <Input
-                    type="text"
-                    placeholder="Department"
-                    value={department}
-                    onChange={(e) => {
-                      setDepartment(e.target.value);
+                  <Select
+                    onValueChange={(e) => {
+                      setDepartment(e);
                     }}
-                  />
+                    value={department ?? ''}
+                    disabled={department !== null}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Department" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {allBranchOptions.map((option, key) => {
+                        return (
+                          <SelectItem key={key} value={option.value}>
+                            {option.label}
+                          </SelectItem>
+                        );
+                      })}
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 <div className="space-y-1">
                   <Input
                     type="text"
                     placeholder="Batch"
-                    value={batch}
+                    value={batch ?? ''}
+                    disabled={batch !== null}
                     onChange={(e) => {
                       setBatch(e.target.value);
                     }}
@@ -134,6 +224,13 @@ export default function UserProfile() {
                     onClick={(e) => {
                       handleSubmit(e);
                     }}
+                    disabled={
+                      name !== null &&
+                      department !== null &&
+                      course !== null &&
+                      batch !== null &&
+                      rollNo !== null
+                    }
                   >
                     {' '}
                     Update{' '}
@@ -204,9 +301,7 @@ export default function UserProfile() {
             </div>
           </div>
         </div>
-        {/* END Change Password */}
       </div>
-      {/* END Page Partials: User Profile: With Cards */}
     </>
   );
 }

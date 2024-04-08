@@ -27,6 +27,7 @@ export default function Annoucements(props: { data: AnnoucementsInterface[] }) {
               _id: '',
               description: '',
               doc: '',
+              createdAt: new Date(),
             }}
           />
         </Dialog>
