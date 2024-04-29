@@ -1,10 +1,9 @@
-import { addUpcomingCompaniesInterface } from '@/types/upcomingCompanies';
+import { UpcomingCompaniesDTO } from '@/types/upcomingCompanies';
 import axios from 'axios';
 import { getToken } from '../token';
 
-export const addUpcomingCompanies = (data: addUpcomingCompaniesInterface) => {
+export const addUpcomingCompanies = (data: Partial<UpcomingCompaniesDTO>) => {
   const token = getToken();
-  console.log('token', token);
 
   return new Promise((resolve, reject) => {
     axios

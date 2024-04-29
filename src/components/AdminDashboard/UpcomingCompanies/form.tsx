@@ -8,25 +8,63 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { FormType } from '@/constants/all.enum';
+import { allBranchOptions } from '@/constants/branches';
+import { allCoursesOptions } from '@/constants/courses';
 import { addUpcomingCompanies } from '@/lib/upcomingCompanies/add';
 import { updateUpcomingCompanies } from '@/lib/upcomingCompanies/update';
-import { UpcomingCompaniesInterface } from '@/types/upcomingCompanies';
+import { UpcomingCompaniesDTO } from '@/types/upcomingCompanies';
 import { fileUpload } from '@/utils/handleUpload';
 import { useState } from 'react';
+import 'react-calendar/dist/Calendar.css';
+import 'react-clock/dist/Clock.css';
+import DateTimePicker from 'react-datetime-picker';
+import 'react-datetime-picker/dist/DateTimePicker.css';
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 type UpcomingCompaniesProps = {
   type: FormType;
-  data: UpcomingCompaniesInterface;
+  data: UpcomingCompaniesDTO;
 };
 
 export function UpcomingCompaniesForm(props: UpcomingCompaniesProps) {
+  const defaultBranches = props.data.departments.map((department) => {
+    return {
+      label: department,
+      value: department,
+    };
+  });
+
+  const defaultCourses = props.data.courses.map((course) => {
+    return {
+      label: course,
+      value: course,
+    };
+  });
+
+  const animatedComponents = makeAnimated();
+
   const [name, setName] = useState<string>(props.data.name);
   const [description, setDescription] = useState<string>(
     props.data.description
   );
   const [doc, setDoc] = useState<File | null>(null);
+
+  const [selectedBranches, setSelectedBranches] = useState<
+    Array<{
+      label: string;
+      value: string;
+    }>
+  >(defaultBranches);
+  const [selectedCourses, setSelectedCourses] = useState<
+    Array<{
+      label: string;
+      value: string;
+    }>
+  >(defaultCourses);
+  const [deadline, setDeadline] = useState<any>(props.data.deadline);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -45,11 +83,25 @@ export function UpcomingCompaniesForm(props: UpcomingCompaniesProps) {
       }
 
       if (props.type === FormType.ADD) {
-        await addUpcomingCompanies({ name, description, doc: url });
+        await addUpcomingCompanies({
+          name,
+          description,
+          doc: url,
+          deadline,
+          departments: selectedBranches.map((branch) => branch.value),
+          courses: selectedCourses.map((course) => course.value),
+        });
         toast.success('Details Added Successfully!!');
       } else {
         await updateUpcomingCompanies(
-          { name, description, doc: url },
+          {
+            name,
+            description,
+            doc: url,
+            deadline,
+            departments: selectedBranches.map((branch) => branch.value),
+            courses: selectedCourses.map((course) => course.value),
+          },
           props.data._id
         );
         toast.success('Details Updated Successfully!!');
@@ -93,6 +145,44 @@ export function UpcomingCompaniesForm(props: UpcomingCompaniesProps) {
                 setDescription(e.target.value);
               }}
               placeholder="Description"
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Select
+              closeMenuOnSelect={false}
+              defaultValue={defaultBranches}
+              components={animatedComponents}
+              isMulti
+              options={allBranchOptions}
+              onChange={(e) => {
+                setSelectedBranches(e as any);
+              }}
+              className="w-96 rounded-lg  placeholder-gray-500 focus:border-black"
+              placeholder="Select Branches"
+            />
+          </div>
+
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Select
+              closeMenuOnSelect={false}
+              defaultValue={defaultCourses}
+              components={animatedComponents}
+              isMulti
+              options={allCoursesOptions}
+              onChange={(e) => {
+                setSelectedCourses(e as any);
+              }}
+              className="w-96 rounded-lg  placeholder-gray-500 active:border-black active:ring-black"
+              placeholder="Select Courses"
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <DateTimePicker
+              onChange={setDeadline}
+              value={deadline}
+              format={'y-MM-dd h:mm a'}
+              disableClock={true}
+              className="w-96 rounded-lg h-10  placeholder-gray-500 focus:border-black border-gray-50"
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">

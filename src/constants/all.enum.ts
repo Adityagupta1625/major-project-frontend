@@ -12,7 +12,7 @@ export enum FormType {
 export enum SideBarStates {
   Dashboard = 'Dashboard',
   Annoucement = 'Annoucement',
-  CreateForm = 'Create Form',
+  StudentDetails = 'StudentDetails',
   FormSubmission = 'Form Submission',
 }
 
