@@ -1,9 +1,12 @@
 import { UpcomingCompaniesDTO } from '@/types/upcomingCompanies';
+import { useState } from 'react';
 import Card from './card';
 
 export default function upcomingCompanies(props: {
   data: UpcomingCompaniesDTO[];
 }) {
+  const [applied, setApplied] = useState<boolean>(false);
+
   return (
     <div className="flex flex-col w-full h-full items-center m-6 p-6">
       <h1 className="text-black font-bold text-4xl">Upcoming Companies </h1>
@@ -15,6 +18,16 @@ export default function upcomingCompanies(props: {
               title={data.name}
               description={data.description}
               doc={data.doc}
+              deadline={new Date(data.deadline)}
+              courses={data.courses}
+              departments={data.departments}
+              _id={data._id}
+              offer={data.offer}
+              category={data.category}
+              batch={data.batch}
+              ctc={data.ctc}
+              applied={applied}
+              setApplied={setApplied}
             />
           );
         })}

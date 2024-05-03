@@ -10,9 +10,9 @@ export interface UserProfile {
 
 export interface UserProfileDTO {
   name: string;
-  department: Enum.Departments;
+  department: Enum.Departments | string;
   batch: string;
-  course: Enum.Courses;
+  course: Enum.Courses | string;
   rollNo: string;
   resume: string;
   marks10: number;
@@ -22,3 +22,18 @@ export interface UserProfileDTO {
   personalEmail: string;
   email: string;
 }
+
+type UserProfileInput = {
+  name: string;
+  department: string;
+  batch: string;
+  course: string;
+  rollNo: string;
+  resume: string;
+  marks10: string | number;
+  marks12: string | number;
+  cgpa: string | number;
+  mobileNo: string;
+  personalEmail: string;
+  email: string;
+};

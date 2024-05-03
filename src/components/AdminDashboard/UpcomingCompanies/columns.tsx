@@ -48,6 +48,22 @@ export const columns: ColumnDef<UpcomingCompaniesDTO>[] = [
     },
   },
   {
+    accessorKey: 'ctc',
+    header: 'CTC',
+  },
+  {
+    accessorKey: 'category',
+    header: 'Category',
+  },
+  {
+    accessorKey: 'offer',
+    header: 'Offer',
+  },
+  {
+    accessorKey: 'batch',
+    header: 'Batch',
+  },
+  {
     accessorKey: 'doc',
     header: 'Doc',
     cell: ({ row }) => {
@@ -96,6 +112,10 @@ export const columns: ColumnDef<UpcomingCompaniesDTO>[] = [
                     courses: row.original.courses,
                     deadline: row.original.deadline,
                     departments: row.original.departments,
+                    category: row.original.category,
+                    offer: row.original.offer,
+                    batch: row.original.batch,
+                    ctc: row.original.ctc,
                   }}
                 />
               </Dialog>

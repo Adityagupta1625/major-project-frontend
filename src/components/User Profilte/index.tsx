@@ -1,15 +1,6 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { allBranchOptions } from '@/constants/branches';
-import { allCoursesOptions } from '@/constants/courses';
 import { resetPassword } from '@/lib/auth/resetPassword';
 import { getUserProfile } from '@/lib/userProfile/get';
 import { updateUserProfile } from '@/lib/userProfile/update';
@@ -18,6 +9,7 @@ import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import UserProfileForm from './userDetails';
 
 export default function UserProfile() {
   const [name, setName] = useState<string | null>(null);
@@ -112,7 +104,7 @@ export default function UserProfile() {
         theme="light"
       />
       <div className="space-y-4 text-gray-800 lg:space-y-8 bg-white">
-        <div className="flex flex-col overflow-hidden bg-white shadow-sm  ">
+        {/* <div className="flex flex-col overflow-hidden bg-white shadow-sm  ">
           <div className="grow p-5 md:flex lg:p-8">
             <div className="mb-5 border-b dark:border-gray-700 md:mb-0 md:w-1/3 md:flex-none md:border-0">
               <h3 className="mb-1 flex items-center justify-start space-x-2 font-semibold">
@@ -239,10 +231,12 @@ export default function UserProfile() {
               </form>
             </div>
           </div>
-        </div>
+        </div> */}
+        <UserProfileForm />
         {/* END Vital Info */}
 
         {/* Change Password */}
+        <hr />
         <div className="flex flex-col overflow-hidden bg-white shadow-sm ">
           <div className="grow p-5 md:flex lg:p-8">
             <div className="mb-5 border-b dark:border-gray-700 md:mb-0 md:w-1/3 md:flex-none md:border-0">

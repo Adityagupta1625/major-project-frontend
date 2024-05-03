@@ -10,6 +10,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { FormType } from '@/constants/all.enum';
 import { allBranchOptions } from '@/constants/branches';
 import { allCoursesOptions } from '@/constants/courses';
+import { allOfferCategories } from '@/constants/offerCategory';
+import { allOfferType } from '@/constants/offerType';
 import { addUpcomingCompanies } from '@/lib/upcomingCompanies/add';
 import { updateUpcomingCompanies } from '@/lib/upcomingCompanies/update';
 import { UpcomingCompaniesDTO } from '@/types/upcomingCompanies';
@@ -65,6 +67,22 @@ export function UpcomingCompaniesForm(props: UpcomingCompaniesProps) {
     }>
   >(defaultCourses);
   const [deadline, setDeadline] = useState<any>(props.data.deadline);
+  const [batch, setBatch] = useState<string>(props.data.batch);
+  const [ctc, setCTC] = useState<string>(props.data.ctc);
+  const [category, setCategory] = useState<{
+    label: string;
+    value: string;
+  }>({
+    label: props.data.category,
+    value: props.data.category,
+  });
+  const [offer, setOffer] = useState<{
+    label: string;
+    value: string;
+  }>({
+    label: props.data.offer,
+    value: props.data.offer,
+  });
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -88,8 +106,12 @@ export function UpcomingCompaniesForm(props: UpcomingCompaniesProps) {
           description,
           doc: url,
           deadline,
-          departments: selectedBranches.map((branch) => branch.value),
-          courses: selectedCourses.map((course) => course.value),
+          departments: selectedBranches.map((branch) => branch.value) as any,
+          courses: selectedCourses.map((course) => course.value) as any,
+          batch: batch,
+          ctc: ctc,
+          category: category.value,
+          offer: offer.value,
         });
         toast.success('Details Added Successfully!!');
       } else {
@@ -99,8 +121,12 @@ export function UpcomingCompaniesForm(props: UpcomingCompaniesProps) {
             description,
             doc: url,
             deadline,
-            departments: selectedBranches.map((branch) => branch.value),
-            courses: selectedCourses.map((course) => course.value),
+            departments: selectedBranches.map((branch) => branch.value) as any,
+            courses: selectedCourses.map((course) => course.value) as any,
+            batch: batch,
+            ctc: ctc,
+            category: category.value,
+            offer: offer.value,
           },
           props.data._id
         );
@@ -116,7 +142,7 @@ export function UpcomingCompaniesForm(props: UpcomingCompaniesProps) {
 
   return (
     <>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[435px] overflow-y-scroll max-h-[90vh] scroll-smooth">
         <DialogHeader>
           <DialogTitle>
             {props.type === FormType.ADD ? 'Add' : ' View & Edit'} Upcoming
@@ -183,6 +209,54 @@ export function UpcomingCompaniesForm(props: UpcomingCompaniesProps) {
               format={'y-MM-dd h:mm a'}
               disableClock={true}
               className="w-96 rounded-lg h-10  placeholder-gray-500 focus:border-black border-gray-50"
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Input
+              className="w-96"
+              type="text"
+              placeholder="Batch"
+              value={batch}
+              onChange={(e) => {
+                setBatch(e.target.value);
+              }}
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Input
+              className="w-96"
+              type="text"
+              placeholder="CTC"
+              value={ctc}
+              onChange={(e) => {
+                setCTC(e.target.value);
+              }}
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Select
+              closeMenuOnSelect={false}
+              defaultValue={category}
+              components={animatedComponents}
+              options={allOfferCategories}
+              onChange={(e) => {
+                setCategory(e as any);
+              }}
+              className="w-96 rounded-lg  placeholder-gray-500 focus:border-black"
+              placeholder="Select Category of Offer"
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Select
+              closeMenuOnSelect={false}
+              defaultValue={offer}
+              components={animatedComponents}
+              options={allOfferType}
+              onChange={(e) => {
+                setOffer(e as any);
+              }}
+              className="w-96 rounded-lg  placeholder-gray-500 focus:border-black"
+              placeholder="Select Offer Type"
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
