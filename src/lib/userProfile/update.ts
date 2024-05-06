@@ -1,10 +1,10 @@
-import { UserProfile } from '@/types/userProfile';
+import { UserProfileInput } from '@/types/userProfile';
 import axios from 'axios';
 import { getToken } from '../token';
 
 export const updateUserProfile = (
-  data: Partial<UserProfile>
-): Promise<UserProfile> => {
+  data: Partial<UserProfileInput>
+): Promise<UserProfileInput> => {
   const token = getToken();
 
   return new Promise((resolve, reject) => {

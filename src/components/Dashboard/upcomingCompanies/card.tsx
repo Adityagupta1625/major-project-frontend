@@ -1,6 +1,6 @@
 import { addSubmission } from '@/lib/submission/add';
 import { Dispatch, SetStateAction } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 export default function Card(props: {
   title: string;
@@ -19,12 +19,12 @@ export default function Card(props: {
 }) {
   const handleSubmission = async () => {
     try {
-      props.setApplied(true)
+      props.setApplied(true);
       await addSubmission({ companyId: props._id });
       toast.success('Successfully Submitted');
       props.setApplied(true);
     } catch (e: any) {
-      props.setApplied(false)
+      props.setApplied(false);
       toast.error('Error in applying, Retry later: ', e.message);
       console.log(e);
     }
@@ -32,19 +32,6 @@ export default function Card(props: {
 
   return (
     <>
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-
       <div className="flex flex-col overflow-hidden rounded-lg bg-white shadow-sm border-2 border-gray-100">
         <div className="bg-gray-50 px-5 py-4">
           <h3 className="flex flex-row font-medium justify-between">
@@ -82,10 +69,10 @@ export default function Card(props: {
 
             {props.applied ? (
               <button
-                className="h-8 w-44 bg-blue-700 text-white rounded-md cursor-pointer hover:bg-blue-600"
+                className="h-8 w-44 bg-blue-400 text-white rounded-md cursor-pointer hover:bg-blue-600"
                 disabled
               >
-                Apply
+                Applied
               </button>
             ) : (
               <button

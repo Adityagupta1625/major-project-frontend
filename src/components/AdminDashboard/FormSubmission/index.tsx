@@ -1,4 +1,3 @@
-import { getAllUserProfile } from '@/lib/userProfile/getAll';
 import { UserProfileDTO } from '@/types/userProfile';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
@@ -7,15 +6,7 @@ export default function StudentDetails() {
   const [data, setData] = useState<UserProfileDTO[]>([]);
   const [cookies, setCookies] = useCookies(['token']);
 
-  useEffect(() => {
-    getAllUserProfile(cookies.token)
-      .then((result) => {
-        setData(result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <div className="flex flex-col w-full max-w-10xl p-4 lg:p-8">

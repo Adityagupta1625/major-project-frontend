@@ -1,12 +1,12 @@
 import { getAllUserProfile } from '@/lib/userProfile/getAll';
-import { UserProfileDTO } from '@/types/userProfile';
+import { UserProfileInput } from '@/types/userProfile';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { DataTable } from '../../utils/Table';
 import { columns } from './columns';
 
 export default function StudentDetails() {
-  const [data, setData] = useState<UserProfileDTO[]>([]);
+  const [data, setData] = useState<UserProfileInput[]>([]);
   const [cookies, setCookies] = useCookies(['token']);
 
   useEffect(() => {

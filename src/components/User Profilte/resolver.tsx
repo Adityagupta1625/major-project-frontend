@@ -1,84 +1,35 @@
 import { UserProfileInput } from '@/types/userProfile';
-import { Resolver } from 'react-hook-form';
+import * as yup from 'yup';
 
-const resolver: Resolver<UserProfileInput> = async (values) => {
-  return {
-    values: values,
-    errors: {
-      name: !values.name
-        ? {
-            type: 'required',
-            message: 'Name is required.',
-          }
-        : null,
-      department: !values.department
-        ? {
-            type: 'required',
-            message: 'Department is required.',
-          }
-        : null,
-      batch: !values.batch
-        ? {
-            type: 'required',
-            message: 'Batch is required.',
-          }
-        : null,
-      course: !values.course
-        ? {
-            type: 'required',
-            message: 'Course is required.',
-          }
-        : null,
-      rollNo: !values.rollNo
-        ? {
-            type: 'required',
-            message: 'Roll number is required.',
-          }
-        : null,
-      resume: !values.resume
-        ? {
-            type: 'required',
-            message: 'Resume is required.',
-          }
-        : null,
-      marks10: !values.marks10
-        ? {
-            type: 'required',
-            message: '10th marks are required.',
-          }
-        : null,
-      marks12: !values.marks12
-        ? {
-            type: 'required',
-            message: '12th marks are required.',
-          }
-        : null,
-      cgpa: !values.cgpa
-        ? {
-            type: 'required',
-            message: 'CGPA is required.',
-          }
-        : null,
-      mobileNo: !values.mobileNo
-        ? {
-            type: 'required',
-            message: 'Mobile number is required.',
-          }
-        : null,
-      personalEmail: !values.personalEmail
-        ? {
-            type: 'required',
-            message: 'Personal email is required.',
-          }
-        : null,
-      email: !values.email
-        ? {
-            type: 'required',
-            message: 'Email is required.',
-          }
-        : values.email,
-    },
-  };
+const resolverSchema = yup.object().shape({
+  name: yup.string().required('Name is required.'),
+  department: yup.string().required('Department is required.'),
+  batch: yup.string().required('Batch is required.'),
+  course: yup.string().required('Course is required.'),
+  rollNo: yup.string().required('Roll number is required.'),
+  resume: yup.string().required('Resume is required.'),
+  marks10: yup.string().required('10th marks are required.'),
+  marks12: yup.string().required('12th marks are required.'),
+  cgpa: yup.string().required('CGPA is required.'),
+  mobileNo: yup.string().required('Mobile number is required.'),
+  personalEmail: yup.string().required('Personal email is required.'),
+  officialEmail: yup
+    .string()
+    .email('Invalid email format.')
+    .required('Email is required.'),
+});
+
+const resolver = async (values: UserProfileInput) => {
+  try {
+    await resolverSchema.validate(values, { abortEarly: false });
+    return { values, errors: {} };
+  } catch (validationErrors: any) {
+    const errors = validationErrors.inner.reduce((acc: any, err: any) => {
+      acc[err.path] = { type: err.type, message: err.message };
+      return acc;
+    }, {});
+    return { values, errors };
+  }
 };
 
 export default resolver;

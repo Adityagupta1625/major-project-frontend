@@ -156,7 +156,7 @@ export default function AdminDashboard() {
                       />
                     </svg>
                   </span>
-                  <span className="grow py-2">Dashboard</span>
+                  <span className="grow py-2">Upcoming Companies</span>
                 </a>
 
                 <a

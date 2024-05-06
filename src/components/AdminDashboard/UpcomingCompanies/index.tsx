@@ -44,6 +44,10 @@ export default function UpcomingCompanies() {
               courses: [],
               departments: [],
               deadline: new Date(),
+              batch: '',
+              ctc: '',
+              category: '',
+              offer: '',
             }}
           />
         </Dialog>

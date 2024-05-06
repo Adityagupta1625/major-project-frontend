@@ -9,12 +9,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { UserProfileDTO } from '@/types/userProfile';
+import { UserProfileInput } from '@/types/userProfile';
 import { IconDots, IconPencil } from '@tabler/icons-react';
 import { ColumnDef } from '@tanstack/react-table';
 import { UpdateStudentDetailsForm } from './form';
 
-export const columns: ColumnDef<UserProfileDTO>[] = [
+export const columns: ColumnDef<UserProfileInput>[] = [
   {
     accessorKey: 'name',
     header: 'Name',

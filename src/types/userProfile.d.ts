@@ -1,3 +1,5 @@
+import * as Enum from '../constants/all.enum';
+
 export interface UserProfile {
   userId: string;
   name: string | null;
@@ -35,5 +37,6 @@ type UserProfileInput = {
   cgpa: string | number;
   mobileNo: string;
   personalEmail: string;
-  email: string;
+  officialEmail: string;
+  userId?: string;
 };
