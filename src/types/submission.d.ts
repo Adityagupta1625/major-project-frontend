@@ -1,6 +1,4 @@
-import * as Enum from '../constants/all.enum';
-import { UpcomingCompaniesDTO } from './upcomingCompanies';
-import { UserProfileDTO } from './userProfile';
+import { UserProfileInput } from './userProfile';
 
 export type SubmissionDTO = {
   userId: string;
@@ -10,14 +8,21 @@ export type SubmissionDTO = {
   _id: string;
 };
 
-export type UserSubmissionDetails = {
-  userProfile: UserProfileDTO;
-  status: Enum.FormStatus;
-  comments: string[];
-};
+export interface UserSubmissionDetails extends UserProfileInput {
+  status: string;
+  _id: string;
+}
 
 export type SubmissionDetailsWithCompany = {
-  companyDetails: UpcomingCompaniesDTO;
-  status: Enum.FormStatus;
-  comments: string[];
+  status: string;
+  companyName: string;
+  ctc: string;
+  category: string;
+};
+
+export type SubmissionDetailsByCompany = {
+  companyName: string;
+  submissions: number;
+  deadline: string;
+  companyId: string;
 };

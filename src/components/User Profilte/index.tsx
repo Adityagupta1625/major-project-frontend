@@ -23,7 +23,7 @@ export default function UserProfile() {
       setUser(JSON.parse(window.sessionStorage.getItem('user') as string));
     }
 
-    getUserProfile(cookies.token)
+    getUserProfile()
       .then((result) => {
         if (result !== null) {
           setUserProfile(result);

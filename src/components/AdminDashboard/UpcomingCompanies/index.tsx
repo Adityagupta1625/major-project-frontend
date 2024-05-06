@@ -4,17 +4,15 @@ import { FormType } from '@/constants/all.enum';
 import { getAllUpcomingCompanies } from '@/lib/upcomingCompanies/get';
 import { UpcomingCompaniesDTO } from '@/types/upcomingCompanies';
 import { useEffect, useState } from 'react';
-import { useCookies } from 'react-cookie';
 import { DataTable } from '../../utils/Table';
 import { columns } from './columns';
 import { UpcomingCompaniesForm } from './form';
 
 export default function UpcomingCompanies() {
   const [data, setData] = useState<UpcomingCompaniesDTO[]>([]);
-  const [cookies, setCookies] = useCookies(['token']);
 
   useEffect(() => {
-    getAllUpcomingCompanies(cookies.token)
+    getAllUpcomingCompanies()
       .then((result) => {
         setData(result);
       })

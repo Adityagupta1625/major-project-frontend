@@ -24,7 +24,6 @@ export default function UserProfileForm(props: {
     register,
     handleSubmit,
     setValue,
-    getValues,
     formState: { errors },
   } = useForm<UserProfileInput>({ resolver });
 
@@ -32,7 +31,7 @@ export default function UserProfileForm(props: {
     if (props.data !== null) {
       reset({ ...props.data });
     }
-  }, []);
+  }, [props.data]);
 
   const onSubmit = (data: UserProfileInput) => {
     if (data.marks10 !== null) {

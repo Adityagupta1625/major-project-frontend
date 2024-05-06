@@ -1,12 +1,13 @@
-import { UpcomingCompaniesDTO } from '@/types/upcomingCompanies';
+import { SubmissionDTO } from '@/types/submission';
 import axios from 'axios';
 import { getToken } from '../token';
 
-export const getAllUpcomingCompanies = (): Promise<UpcomingCompaniesDTO[]> => {
+export const updateSubmission = (data: Partial<SubmissionDTO>, id: string) => {
   const token = getToken();
+
   return new Promise((resolve, reject) => {
     axios
-      .get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/upcoming-companies`, {
+      .put(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/submission/${id}`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

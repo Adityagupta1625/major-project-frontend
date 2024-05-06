@@ -25,7 +25,7 @@ export interface UserProfileDTO {
   email: string;
 }
 
-type UserProfileInput = {
+export type UserProfileInput = {
   name: string;
   department: string;
   batch: string;
