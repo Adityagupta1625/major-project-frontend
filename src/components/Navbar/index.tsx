@@ -79,23 +79,7 @@ export default function Navbar() {
                   >
                     <span>Annoucements</span>
                   </a>
-                  <a
-                    href="/forms"
-                    className={
-                      DashboardStates.Forms === dashboardState
-                        ? 'group flex items-center space-x-2 rounded-lg border border-blue-100 bg-blue-50 px-3 py-2 text-sm font-medium text-blue-600 '
-                        : 'group flex items-center space-x-2 rounded-lg border border-transparent px-3 py-2 text-sm font-medium text-gray-800 hover:bg-blue-50 hover:text-blue-600 active:border-blue-100'
-                    }
-                    onClick={() => {
-                      setDashboardState(DashboardStates.Forms);
-                      window.sessionStorage.setItem(
-                        'navItem',
-                        DashboardStates.Forms
-                      );
-                    }}
-                  >
-                    <span>Forms</span>
-                  </a>
+
                   <a
                     href="/upcomingCompanies"
                     className={

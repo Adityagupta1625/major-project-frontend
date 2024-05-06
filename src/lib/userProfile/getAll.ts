@@ -1,12 +1,12 @@
-import { UpcomingCompaniesDTO } from '@/types/upcomingCompanies';
+import { UserProfileInput } from '@/types/userProfile';
 import axios from 'axios';
 
-export const getAllUpcomingCompanies = (
+export const getAllUserProfile = (
   token: string
-): Promise<UpcomingCompaniesDTO[]> => {
+): Promise<UserProfileInput[]> => {
   return new Promise((resolve, reject) => {
     axios
-      .get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/upcoming-companies`, {
+      .get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/user-profile/all`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -15,7 +15,7 @@ export const getAllUpcomingCompanies = (
         resolve(res.data);
       })
       .catch((err) => {
-        reject(err.response.data);
+        reject(err);
       });
   });
 };

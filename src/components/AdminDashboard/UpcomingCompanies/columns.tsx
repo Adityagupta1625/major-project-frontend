@@ -11,13 +11,13 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { FormType } from '@/constants/all.enum';
 import { deleteUpcomingCompanies } from '@/lib/upcomingCompanies/delete';
-import { UpcomingCompaniesInterface } from '@/types/upcomingCompanies';
+import { UpcomingCompaniesDTO } from '@/types/upcomingCompanies';
 import { IconDots, IconPencil, IconTrash } from '@tabler/icons-react';
 import { ColumnDef } from '@tanstack/react-table';
 import { toast } from 'react-toastify';
 import { UpcomingCompaniesForm } from './form';
 
-export const columns: ColumnDef<UpcomingCompaniesInterface>[] = [
+export const columns: ColumnDef<UpcomingCompaniesDTO>[] = [
   {
     accessorKey: 'name',
     header: 'Name',
@@ -25,6 +25,43 @@ export const columns: ColumnDef<UpcomingCompaniesInterface>[] = [
   {
     accessorKey: 'description',
     header: 'Description',
+  },
+  {
+    accessorKey: 'courses',
+    header: 'Courses',
+    cell: ({ row }) => {
+      return row.original.courses.join(', ');
+    },
+  },
+  {
+    accessorKey: 'deadline',
+    header: 'Deadline',
+    cell: ({ row }) => {
+      return new Date(row.original.deadline).toLocaleString();
+    },
+  },
+  {
+    accessorKey: 'departments',
+    header: 'Departments',
+    cell: ({ row }) => {
+      return row.original.departments.join(', ');
+    },
+  },
+  {
+    accessorKey: 'ctc',
+    header: 'CTC',
+  },
+  {
+    accessorKey: 'category',
+    header: 'Category',
+  },
+  {
+    accessorKey: 'offer',
+    header: 'Offer',
+  },
+  {
+    accessorKey: 'batch',
+    header: 'Batch',
   },
   {
     accessorKey: 'doc',
@@ -72,6 +109,13 @@ export const columns: ColumnDef<UpcomingCompaniesInterface>[] = [
                     _id: row.original._id,
                     description: row.original.description,
                     doc: row.original.doc,
+                    courses: row.original.courses,
+                    deadline: row.original.deadline,
+                    departments: row.original.departments,
+                    category: row.original.category,
+                    offer: row.original.offer,
+                    batch: row.original.batch,
+                    ctc: row.original.ctc,
                   }}
                 />
               </Dialog>

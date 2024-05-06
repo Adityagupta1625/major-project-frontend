@@ -1,9 +1,9 @@
-import { addUpcomingCompaniesInterface } from '@/types/upcomingCompanies';
+import { UpcomingCompaniesDTO } from '@/types/upcomingCompanies';
 import axios from 'axios';
 import { getToken } from '../token';
 
 export const updateUpcomingCompanies = (
-  data: addUpcomingCompaniesInterface,
+  data: Partial<UpcomingCompaniesDTO>,
   id: string
 ) => {
   const token = getToken();

@@ -1,8 +1,5 @@
 'use client';
 import { Roles, SideBarStates } from '@/constants/all.enum';
-import { getAllAnnoucements } from '@/lib/annoucements/get';
-import { getAllPlacementForms } from '@/lib/placementForm/get';
-import { getAllUpcomingCompanies } from '@/lib/upcomingCompanies/get';
 import { getUser } from '@/lib/user/get';
 import { User } from '@/types/user';
 import { useRouter } from 'next/navigation';
@@ -10,15 +7,13 @@ import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { ToastContainer } from 'react-toastify';
 import Annoucements from './Annoucement';
-import CreateForm from './CreateForm';
+import StudentDetails from './StudentsDetails';
 import UpcomingCompanies from './UpcomingCompanies';
 
 export default function AdminDashboard() {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [desktopSidebarOpen, setDesktopSidebarOpen] = useState(true);
   const [sideBarState, setSideBarState] = useState(SideBarStates.Dashboard);
-  const [data, setData] = useState<any>([]);
-  // eslint-disable-next-line no-unused-vars
   const [cookies, setCookies] = useCookies(['token']);
   const router = useRouter();
 
@@ -48,41 +43,7 @@ export default function AdminDashboard() {
         console.log(e);
         router.push('/login');
       });
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    if (sideBarState === SideBarStates.Dashboard) {
-      (async () => {
-        try {
-          const resp = await getAllUpcomingCompanies(cookies.token);
-          setData(resp);
-        } catch (e) {
-          console.log(e);
-        }
-      })();
-    } else if (sideBarState === SideBarStates.Annoucement) {
-      (async () => {
-        try {
-          const resp = await getAllAnnoucements(cookies.token);
-          setData(resp);
-        } catch (e) {
-          console.log(e);
-        }
-      })();
-    } else if (sideBarState === SideBarStates.CreateForm) {
-      (async () => {
-        try {
-          const resp = await getAllPlacementForms(cookies.token);
-          setData(resp);
-        } catch (e) {
-          console.log(e);
-        }
-      })();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sideBarState]);
 
   return (
     <>
@@ -156,11 +117,8 @@ export default function AdminDashboard() {
                 </svg>
               </button>
             </div>
-            {/* END Close Sidebar on Mobile */}
           </div>
-          {/* END Sidebar Header */}
 
-          {/* Sidebar Navigation */}
           <div className="overflow-y-auto">
             <div className="w-full p-4">
               <nav className="space-y-1">
@@ -198,7 +156,7 @@ export default function AdminDashboard() {
                       />
                     </svg>
                   </span>
-                  <span className="grow py-2">Dashboard</span>
+                  <span className="grow py-2">Upcoming Companies</span>
                 </a>
 
                 <a
@@ -239,18 +197,21 @@ export default function AdminDashboard() {
                 </a>
                 <a
                   onClick={() => {
-                    setSideBarState(SideBarStates.CreateForm);
-                    localStorage.setItem('Side Bar', SideBarStates.CreateForm);
+                    setSideBarState(SideBarStates.StudentDetails);
+                    localStorage.setItem(
+                      'Side Bar',
+                      SideBarStates.StudentDetails
+                    );
                   }}
                   className={
-                    SideBarStates.CreateForm === sideBarState
+                    SideBarStates.StudentDetails === sideBarState
                       ? 'group flex items-center space-x-2 rounded-lg border border-transparent px-2.5 text-sm font-medium text-gray-900 bg-gray-100 border-gray-100 cursor-pointer'
                       : 'group flex items-center space-x-2 rounded-lg border border-transparent px-2.5 text-sm font-medium text-gray-800 hover:bg-gray-50 hover:text-gray-900 active:border-gray-100 bg-white cursor-pointer'
                   }
                 >
                   <span
                     className={
-                      SideBarStates.CreateForm === sideBarState
+                      SideBarStates.StudentDetails === sideBarState
                         ? 'flex flex-none items-center text-gray-500 cursor-pointer'
                         : 'flex flex-none items-center group-hover:text-gray-500 text-gray-400 cursor-pointer'
                     }
@@ -271,12 +232,51 @@ export default function AdminDashboard() {
                       />
                     </svg>
                   </span>
-                  <span className="grow py-2">Create Form</span>
+                  <span className="grow py-2">Student Details</span>
+                </a>
+
+                <a
+                  onClick={() => {
+                    setSideBarState(SideBarStates.FormSubmission);
+                    localStorage.setItem(
+                      'Side Bar',
+                      SideBarStates.FormSubmission
+                    );
+                  }}
+                  className={
+                    SideBarStates.FormSubmission === sideBarState
+                      ? 'group flex items-center space-x-2 rounded-lg border border-transparent px-2.5 text-sm font-medium text-gray-900 bg-gray-100 border-gray-100 cursor-pointer'
+                      : 'group flex items-center space-x-2 rounded-lg border border-transparent px-2.5 text-sm font-medium text-gray-800 hover:bg-gray-50 hover:text-gray-900 active:border-gray-100 bg-white cursor-pointer'
+                  }
+                >
+                  <span
+                    className={
+                      SideBarStates.FormSubmission === sideBarState
+                        ? 'flex flex-none items-center text-gray-500 cursor-pointer'
+                        : 'flex flex-none items-center group-hover:text-gray-500 text-gray-400 cursor-pointer'
+                    }
+                  >
+                    <svg
+                      className="hi-outline hi-clipboard-document-list inline-block size-5"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z"
+                      />
+                    </svg>
+                  </span>
+                  <span className="grow py-2">Form Submissions</span>
                 </a>
               </nav>
             </div>
           </div>
-          {/* END Sidebar Navigation */}
         </nav>
 
         <header
@@ -286,9 +286,7 @@ export default function AdminDashboard() {
           }`}
         >
           <div className="mx-auto flex w-full max-w-10xl justify-between px-4 lg:px-8">
-            {/* Left Section */}
             <div className="flex items-center space-x-2">
-              {/* Toggle Sidebar on Desktop */}
               <div className="hidden lg:block">
                 <button
                   onClick={() => setDesktopSidebarOpen(!desktopSidebarOpen)}
@@ -309,9 +307,7 @@ export default function AdminDashboard() {
                   </svg>
                 </button>
               </div>
-              {/* END Toggle Sidebar on Desktop */}
 
-              {/* Toggle Sidebar on Mobile */}
               <div className="lg:hidden">
                 <button
                   onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)}
@@ -332,34 +328,23 @@ export default function AdminDashboard() {
                   </svg>
                 </button>
               </div>
-              {/* END Toggle Sidebar on Mobile */}
             </div>
-            {/* END Left Section */}
-
-            {/* Center Section */}
-
-            {/* END Center Section */}
           </div>
         </header>
-        {/* END Page Header */}
-
-        {/* Page Content */}
 
         <main
           id="page-content"
           className="flex max-w-full flex-auto flex-col pt-16"
         >
           {sideBarState === SideBarStates.Dashboard ? (
-            <UpcomingCompanies data={data}></UpcomingCompanies>
+            <UpcomingCompanies></UpcomingCompanies>
           ) : sideBarState === SideBarStates.Annoucement ? (
-            <Annoucements data={data}></Annoucements>
-          ) : sideBarState === SideBarStates.CreateForm ? (
-            <CreateForm data={data}></CreateForm>
+            <Annoucements></Annoucements>
+          ) : sideBarState === SideBarStates.StudentDetails ? (
+            <StudentDetails></StudentDetails>
           ) : null}
         </main>
-        {/* END Page Content */}
       </div>
-      {/* END Page Container */}
     </>
   );
 }

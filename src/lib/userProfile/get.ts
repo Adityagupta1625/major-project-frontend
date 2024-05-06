@@ -1,7 +1,9 @@
-import { UserProfile } from '@/types/userProfile';
+import { UserProfileInput } from '@/types/userProfile';
 import axios from 'axios';
 
-export const getUserProfile = (token: string): Promise<UserProfile | null> => {
+export const getUserProfile = (
+  token: string
+): Promise<UserProfileInput | null> => {
   return new Promise((resolve, reject) => {
     axios
       .get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/user-profile`, {
