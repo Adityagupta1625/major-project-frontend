@@ -97,14 +97,29 @@ export default function Navbar() {
                   >
                     <span>Upcoming Companies</span>
                   </a>
+
+                  <a
+                    href="/appliedCompanies"
+                    className={
+                      DashboardStates.AppliedCompanies === dashboardState
+                        ? 'group flex items-center space-x-2 rounded-lg border border-blue-100 bg-blue-50 px-3 py-2 text-sm font-medium text-blue-600 '
+                        : 'group flex items-center space-x-2 rounded-lg border border-transparent px-3 py-2 text-sm font-medium text-gray-800 hover:bg-blue-50 hover:text-blue-600 active:border-blue-100'
+                    }
+                    onClick={() => {
+                      setDashboardState(DashboardStates.AppliedCompanies);
+                      window.sessionStorage.setItem(
+                        'navItem',
+                        DashboardStates.AppliedCompanies
+                      );
+                    }}
+                  >
+                    <span>Applied Companies</span>
+                  </a>
                 </nav>
-                {/* END Desktop Navigation */}
               </div>
 
               <div className="flex items-center space-x-2">
-                {/* User Dropdown */}
                 <Menu as="div" className="relative inline-block">
-                  {/* Dropdown Toggle Button */}
                   <Menu.Button className="inline-flex items-center justify-center space-x-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-semibold leading-5 text-gray-800 hover:border-gray-300 hover:text-gray-900 hover:shadow-sm focus:ring focus:ring-gray-300 focus:ring-opacity-25 active:border-gray-200 active:shadow-none ">
                     <svg
                       className="hi-mini hi-user-circle inline-block size-5 sm:hidden"
@@ -134,9 +149,6 @@ export default function Navbar() {
                       />
                     </svg>
                   </Menu.Button>
-                  {/* END Dropdown Toggle Button */}
-
-                  {/* Dropdown */}
                   <Transition
                     as={Fragment}
                     enter="transition ease-out duration-100"
@@ -264,23 +276,7 @@ export default function Navbar() {
                 >
                   <span>Annoucements</span>
                 </a>
-                <a
-                  href="/forms"
-                  className={
-                    DashboardStates.Forms === dashboardState
-                      ? 'group flex items-center space-x-2 rounded-lg border border-blue-100 bg-blue-50 px-3 py-2 text-sm font-medium text-blue-600 '
-                      : 'group flex items-center space-x-2 rounded-lg border border-transparent px-3 py-2 text-sm font-medium text-gray-800 hover:bg-blue-50 hover:text-blue-600 active:border-blue-100'
-                  }
-                  onClick={() => {
-                    setDashboardState(DashboardStates.Forms);
-                    window.sessionStorage.setItem(
-                      'navItem',
-                      DashboardStates.Forms
-                    );
-                  }}
-                >
-                  <span>Forms</span>
-                </a>
+
                 <a
                   href="/upcomingCompanies"
                   className={
@@ -297,6 +293,23 @@ export default function Navbar() {
                   }}
                 >
                   <span>Upcoming Companies</span>
+                </a>
+                <a
+                  href="/appliedCompanies"
+                  className={
+                    DashboardStates.AppliedCompanies === dashboardState
+                      ? 'group flex items-center space-x-2 rounded-lg border border-blue-100 bg-blue-50 px-3 py-2 text-sm font-medium text-blue-600 '
+                      : 'group flex items-center space-x-2 rounded-lg border border-transparent px-3 py-2 text-sm font-medium text-gray-800 hover:bg-blue-50 hover:text-blue-600 active:border-blue-100'
+                  }
+                  onClick={() => {
+                    setDashboardState(DashboardStates.AppliedCompanies);
+                    window.sessionStorage.setItem(
+                      'navItem',
+                      DashboardStates.AppliedCompanies
+                    );
+                  }}
+                >
+                  <span>Applied Companies</span>
                 </a>
               </nav>
             </div>

@@ -1,12 +1,15 @@
-import { UpcomingCompaniesDTO } from '@/types/upcomingCompanies';
+import { SubmissionDetailsWithCompany } from '@/types/submission';
 import axios from 'axios';
 import { getToken } from '../token';
 
-export const getAllUpcomingCompanies = (): Promise<UpcomingCompaniesDTO[]> => {
+export const getUserSubmissionDetails = (): Promise<
+  SubmissionDetailsWithCompany[]
+> => {
   const token = getToken();
+
   return new Promise((resolve, reject) => {
     axios
-      .get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/upcoming-companies`, {
+      .get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/submission/user`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

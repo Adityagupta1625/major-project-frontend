@@ -1,13 +1,24 @@
+'use client';
+import { getAllUpcomingCompanies } from '@/lib/upcomingCompanies/get';
 import { UpcomingCompaniesDTO } from '@/types/upcomingCompanies';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Card from './card';
 
-export default function UpcomingCompanies(props: {
-  data: UpcomingCompaniesDTO[];
-}) {
+export default function UpcomingCompanies() {
   const [applied, setApplied] = useState<boolean>(false);
+  const [upcomingCompanies, setUpcomingCompanies] = useState<
+    Array<UpcomingCompaniesDTO>
+  >([]);
+
+  useEffect(() => {
+    getAllUpcomingCompanies()
+      .then((result: UpcomingCompaniesDTO[]) => {
+        setUpcomingCompanies(result);
+      })
+      .catch(() => {});
+  }, []);
 
   return (
     <>
@@ -26,7 +37,7 @@ export default function UpcomingCompanies(props: {
       <div className="flex flex-col w-full h-full items-center m-6 p-6">
         <h1 className="text-black font-bold text-4xl">Upcoming Companies </h1>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 lg:gap-8 m-4 p-4 w-full">
-          {props.data.map((data: UpcomingCompaniesDTO, key: number) => {
+          {upcomingCompanies.map((data: UpcomingCompaniesDTO, key: number) => {
             return (
               <Card
                 key={key}

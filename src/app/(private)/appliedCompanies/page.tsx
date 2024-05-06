@@ -1,11 +1,11 @@
-import UpcomingCompanies from '@/components/Dashboard/upcomingCompanies';
+import AppliedCompanies from '@/components/Dashboard/Applied';
 import Navbar from '@/components/Navbar';
 
 const Page = () => {
   return (
     <>
       <Navbar />
-      <UpcomingCompanies />
+      <AppliedCompanies />
     </>
   );
 };

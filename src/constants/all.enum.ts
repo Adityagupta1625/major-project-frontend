@@ -19,8 +19,8 @@ export enum SideBarStates {
 export enum DashboardStates {
   Annoucement = 'Annoucement',
   UpcomingCompanies = 'Upcoming Companies',
-  Forms = 'Forms',
-  Profile = 'Profile',
+  AppliedCompanies = 'AppliedCompanies',
+  Profile = 'Profiles',
 }
 
 export enum FormStatus {
@@ -29,17 +29,17 @@ export enum FormStatus {
   Pending = 'Pending',
 }
 
-export enum OfferCategory{
-  Dream='Dream',
-  SuperDream='Super Dream',
-  UnderDream='Under Dream'
+export enum OfferCategory {
+  Dream = 'Dream',
+  SuperDream = 'Super Dream',
+  UnderDream = 'Under Dream',
 }
 
-export enum OfferType{
-  Internship6M='6 Months Internship',
-  Internship2M='2 Months Internship',
-  FullTime='Full Time',
-  PPO='PPO'
+export enum OfferType {
+  Internship6M = '6 Months Internship',
+  Internship2M = '2 Months Internship',
+  FullTime = 'Full Time',
+  PPO = 'PPO',
 }
 
 export enum Departments {

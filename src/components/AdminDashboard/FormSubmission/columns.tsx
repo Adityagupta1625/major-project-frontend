@@ -1,48 +1,30 @@
 'use client';
-import { SubmissionDetailsWithCompany } from '@/types/submission';
+import { SubmissionDetailsByCompany } from '@/types/submission';
 import { ColumnDef } from '@tanstack/react-table';
+import Actions from './Actions';
 
-export const columns: ColumnDef<SubmissionDetailsWithCompany>[] = [
+export const columns: ColumnDef<SubmissionDetailsByCompany>[] = [
   {
-    accessorKey: 'status',
-    header: 'Status',
-  },
-  {
-    accessorKey: 'companyDetails.name',
+    accessorKey: 'companyName',
     header: 'Company Name',
   },
-
+  {
+    accessorKey: 'deadline',
+    header: 'Deadline',
+    cell: ({ row }) => {
+      return <span>{new Date(row.original.deadline).toLocaleString()}</span>;
+    },
+  },
+  {
+    accessorKey: 'submissions',
+    header: 'Submissions',
+  },
   {
     accessorKey: 'actions',
-    header: '',
+    header: 'Actions',
     enableHiding: false,
     cell: ({ row }) => {
-      return (
-        <></>
-        // <DropdownMenu>
-        //   <DropdownMenuTrigger asChild>
-        //     <Button variant="ghost" className="h-8 w-8 p-0">
-        //       <span className="sr-only">Open menu</span>
-        //       <IconDots className="h-4 w-4" />
-        //     </Button>
-        //   </DropdownMenuTrigger>
-        //   <DropdownMenuContent align="end">
-        //     <DropdownMenuLabel>Actions</DropdownMenuLabel>
-        //     <DropdownMenuSeparator />
-        //     <DropdownMenuItem asChild>
-        //       <Dialog>
-        //         <DialogTrigger asChild>
-        //           <p className="flex flex-row p-1 items-center cursor-pointer justify-start">
-        //             <IconPencil className="h-4 w-4 mr-2" />
-        //             <p className="text-sm">View Details & Edit</p>
-        //           </p>
-        //         </DialogTrigger>
-        //         <UpdateStudentDetailsForm data={row.original} />
-        //       </Dialog>
-        //     </DropdownMenuItem>
-        //   </DropdownMenuContent>
-        // </DropdownMenu>
-      );
+      return <Actions companyId={row.original.companyId}></Actions>;
     },
   },
 ];
