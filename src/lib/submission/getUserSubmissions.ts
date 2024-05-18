@@ -3,14 +3,15 @@ import axios from 'axios';
 import { getToken } from '../token';
 
 export const getUserSubmissionDetails = (
-  companyId: string
+  companyId: string,
+  page: number
 ): Promise<UserSubmissionDetails[]> => {
   const token = getToken();
 
   return new Promise((resolve, reject) => {
     axios
       .get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/submission/company?companyId=${companyId}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/submission/company?companyId=${companyId}&page=${page}&limit=${10}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

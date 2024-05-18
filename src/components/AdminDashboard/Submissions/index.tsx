@@ -5,14 +5,15 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import CSVDownloadButton from 'react-json-to-csv';
 import { DataTable } from '../../utils/Table';
-import { columns } from './colums';
+import { columns } from './columns';
 
 export default function StudentSubmissions() {
   const [data, setData] = useState<UserSubmissionDetails[]>([]);
   const params = useParams<{ companyId: string }>();
+  const [page, setPage] = useState<number>(1);
 
   useEffect(() => {
-    getUserSubmissionDetails(params.companyId)
+    getUserSubmissionDetails(params.companyId, page)
       .then((result) => {
         setData(result);
       })
@@ -45,7 +46,7 @@ export default function StudentSubmissions() {
         />
       </div>
 
-      <DataTable columns={columns} data={data} />
+      <DataTable columns={columns} data={data} setPage={setPage} />
     </div>
   );
 }

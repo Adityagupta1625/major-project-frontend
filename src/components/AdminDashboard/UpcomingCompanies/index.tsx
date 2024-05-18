@@ -10,9 +10,10 @@ import { UpcomingCompaniesForm } from './form';
 
 export default function UpcomingCompanies() {
   const [data, setData] = useState<UpcomingCompaniesDTO[]>([]);
+  const [page, setPage] = useState<number>(1);
 
   useEffect(() => {
-    getAllUpcomingCompanies()
+    getAllUpcomingCompanies(page)
       .then((result) => {
         setData(result);
       })
@@ -50,7 +51,7 @@ export default function UpcomingCompanies() {
           />
         </Dialog>
       </div>
-      <DataTable columns={columns} data={data} />
+      <DataTable columns={columns} data={data} setPage={setPage} />
     </div>
   );
 }

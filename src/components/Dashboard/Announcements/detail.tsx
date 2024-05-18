@@ -1,6 +1,6 @@
-import { AnnoucementsInterface } from '@/types/annoucements';
+import { AnnouncementsDTO } from '@/types/announcements';
 
-export default function DetailPage(props: { data: AnnoucementsInterface }) {
+export default function DetailPage(props: { data: AnnouncementsDTO }) {
   return (
     <div className="flex flex-col m-6 p-6 w-full">
       <h1 className="text-3xl font-bold text-center">{props.data.title}</h1>

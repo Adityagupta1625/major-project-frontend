@@ -8,20 +8,20 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { FormType } from '@/constants/all.enum';
-import { addAnnoucement } from '@/lib/annoucements/add';
-import { updateAnnoucement } from '@/lib/annoucements/update';
-import { AnnoucementsInterface } from '@/types/annoucements';
+import { addAnnouncements } from '@/lib/announcements/add';
+import { updateAnnouncement } from '@/lib/announcements/update';
+import { AnnouncementsDTO } from '@/types/announcements';
 import { fileUpload } from '@/utils/handleUpload';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-type AnnoucementsProps = {
+type AnnouncementsProps = {
   type: FormType;
-  data: AnnoucementsInterface;
+  data: AnnouncementsDTO;
 };
 
-export function AnnoucementsForm(props: AnnoucementsProps) {
+export function AnnouncementsForm(props: AnnouncementsProps) {
   const [title, setTitle] = useState<string>(props.data.title);
   const [description, setDescription] = useState<string>(
     props.data.description
@@ -40,15 +40,15 @@ export function AnnoucementsForm(props: AnnoucementsProps) {
       let url = props.data.doc;
 
       if (doc !== null) {
-        url = await fileUpload(doc!, 'Annoucement');
+        url = await fileUpload(doc!, 'Announcement');
         if (!url) throw new Error('Failed to upload document');
       }
 
       if (props.type === FormType.ADD) {
-        await addAnnoucement({ title, description, doc: url });
+        await addAnnouncements({ title, description, doc: url });
         toast.success('Details Added Successfully!!');
       } else {
-        await updateAnnoucement(
+        await updateAnnouncement(
           { title, description, doc: url },
           props.data._id
         );
@@ -67,7 +67,7 @@ export function AnnoucementsForm(props: AnnoucementsProps) {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>
-            {props.type === FormType.ADD ? 'Add' : ' View & Edit'} Annoucements
+            {props.type === FormType.ADD ? 'Add' : ' View & Edit'} Announcements
           </DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">

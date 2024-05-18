@@ -1,30 +1,29 @@
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { FormType } from '@/constants/all.enum';
-import { getAllAnnoucements } from '@/lib/annoucements/get';
-import { AnnoucementsInterface } from '@/types/annoucements';
+import { getAllAnnouncements } from '@/lib/announcements/get';
+import { AnnouncementsDTO } from '@/types/announcements';
 import { useEffect, useState } from 'react';
-import { useCookies } from 'react-cookie';
 import { DataTable } from '../../utils/Table';
 import { columns } from './columns';
-import { AnnoucementsForm } from './form';
+import { AnnouncementsForm } from './form';
 
-export default function Annoucements() {
-  const [data, setData] = useState<AnnoucementsInterface[]>([]);
-  const [cookies, setCookies] = useCookies(['token']);
+export default function Announcements() {
+  const [data, setData] = useState<AnnouncementsDTO[]>([]);
+  const [page, setPage] = useState<number>(1);
 
   useEffect(() => {
-    getAllAnnoucements(cookies.token)
+    getAllAnnouncements(page)
       .then((result) => {
         setData(result);
       })
       .catch(() => {});
-  }, []);
+  }, [page]);
 
   return (
     <div className="flex flex-col w-full max-w-10xl p-4 lg:p-8">
       <h1 className="text-3xl font-bold text-black text-center my-2 mb-6 p-2">
-        Annoucements
+        Announcements
       </h1>
       <div className="flex flex-row justify-end">
         <Dialog>
@@ -34,7 +33,7 @@ export default function Annoucements() {
               Add{' '}
             </Button>
           </DialogTrigger>
-          <AnnoucementsForm
+          <AnnouncementsForm
             type={FormType.ADD}
             data={{
               title: '',
@@ -46,7 +45,7 @@ export default function Annoucements() {
           />
         </Dialog>
       </div>
-      <DataTable columns={columns} data={data} />
+      <DataTable columns={columns} data={data} setPage={setPage} />
     </div>
   );
 }

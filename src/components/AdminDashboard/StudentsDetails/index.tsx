@@ -1,16 +1,15 @@
 import { getAllUserProfile } from '@/lib/userProfile/getAll';
 import { UserProfileInput } from '@/types/userProfile';
 import { useEffect, useState } from 'react';
-import { useCookies } from 'react-cookie';
 import { DataTable } from '../../utils/Table';
 import { columns } from './columns';
 
 export default function StudentDetails() {
   const [data, setData] = useState<UserProfileInput[]>([]);
-  const [cookies, setCookies] = useCookies(['token']);
+  const [page, setPage] = useState<number>(1);
 
   useEffect(() => {
-    getAllUserProfile(cookies.token)
+    getAllUserProfile(page)
       .then((result) => {
         setData(result);
       })
@@ -25,7 +24,7 @@ export default function StudentDetails() {
         Student Details
       </h1>
 
-      <DataTable columns={columns} data={data} />
+      <DataTable columns={columns} data={data} setPage={setPage} />
     </div>
   );
 }

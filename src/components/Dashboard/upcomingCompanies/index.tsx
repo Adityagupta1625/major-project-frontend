@@ -11,9 +11,10 @@ export default function UpcomingCompanies() {
   const [upcomingCompanies, setUpcomingCompanies] = useState<
     Array<UpcomingCompaniesDTO>
   >([]);
+  const [page, setPage] = useState<number>(1);
 
   useEffect(() => {
-    getAllUpcomingCompanies()
+    getAllUpcomingCompanies(page)
       .then((result: UpcomingCompaniesDTO[]) => {
         setUpcomingCompanies(result);
       })

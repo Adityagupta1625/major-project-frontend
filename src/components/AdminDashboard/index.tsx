@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { ToastContainer } from 'react-toastify';
-import Annoucements from './Annoucement';
+import Announcements from './Announcement';
 import FormSubmissions from './FormSubmission';
 import StudentDetails from './StudentsDetails';
 import UpcomingCompanies from './UpcomingCompanies';
@@ -340,7 +340,7 @@ export default function AdminDashboard() {
           {sideBarState === SideBarStates.Dashboard ? (
             <UpcomingCompanies></UpcomingCompanies>
           ) : sideBarState === SideBarStates.Annoucement ? (
-            <Annoucements></Annoucements>
+            <Announcements></Announcements>
           ) : sideBarState === SideBarStates.StudentDetails ? (
             <StudentDetails></StudentDetails>
           ) : (

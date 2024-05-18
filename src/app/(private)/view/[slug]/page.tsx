@@ -1,7 +1,7 @@
 'use client';
 import DetailPage from '@/components/Dashboard/Annoucements/detail';
 import Navbar from '@/components/Navbar';
-import { getAnnoucementbyId } from '@/lib/annoucements/getById';
+import { getAnnoucementbyId } from '@/lib/announcements/getById';
 import { AnnoucementsInterface } from '@/types/annoucements';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
