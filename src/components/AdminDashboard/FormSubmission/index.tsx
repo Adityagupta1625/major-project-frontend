@@ -6,17 +6,17 @@ import { columns } from './columns';
 
 export default function FormSubmissions() {
   const [data, setData] = useState<SubmissionDetailsByCompany[]>([]);
+  const [page, setPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(0);
 
   useEffect(() => {
-    getAllSubmissions()
+    getAllSubmissions(page)
       .then((result) => {
-        console.log('result--->', result);
-        setData(result);
+        setData(result.data);
+        setTotalPages(result.totalPages);
       })
-      .catch((e) => {
-        console.log(e);
-      });
-  }, []);
+      .catch();
+  }, [page]);
 
   return (
     <div className="flex flex-col w-full max-w-10xl p-4 lg:p-8">
@@ -24,7 +24,12 @@ export default function FormSubmissions() {
         Student Details
       </h1>
 
-      <DataTable columns={columns} data={data} />
+      <DataTable
+        columns={columns}
+        data={data}
+        setPage={setPage}
+        totalPage={totalPages}
+      />
     </div>
   );
 }

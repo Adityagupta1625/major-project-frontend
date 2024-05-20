@@ -10,7 +10,7 @@ export default function Navbar() {
   const [dashboardState, setDashboardState] = useState<DashboardStates>(
     DashboardStates.Annoucement
   );
-  const [cookies, setCookie, removeCookie] = useCookies(['token']);
+  const [, , removeCookie] = useCookies(['token']);
   const router = useRouter();
 
   useEffect(() => {

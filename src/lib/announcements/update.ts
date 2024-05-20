@@ -1,9 +1,9 @@
-import { addAnnoucementsInterface } from '@/types/annoucements';
+import { AnnouncementsDTO } from '@/types/announcements';
 import axios from 'axios';
 import { getToken } from '../token';
 
-export const updateAnnoucement = (
-  data: addAnnoucementsInterface,
+export const updateAnnouncement = (
+  data: Partial<AnnouncementsDTO>,
   id: string
 ) => {
   const token = getToken();

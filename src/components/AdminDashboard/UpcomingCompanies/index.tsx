@@ -10,14 +10,17 @@ import { UpcomingCompaniesForm } from './form';
 
 export default function UpcomingCompanies() {
   const [data, setData] = useState<UpcomingCompaniesDTO[]>([]);
+  const [page, setPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(0);
 
   useEffect(() => {
-    getAllUpcomingCompanies()
+    getAllUpcomingCompanies(page)
       .then((result) => {
-        setData(result);
+        setData(result.data);
+        setTotalPages(result.totalPages);
       })
       .catch(() => {});
-  }, []);
+  }, [page]);
 
   return (
     <div className="flex flex-col w-full max-w-10xl p-4 lg:p-8">
@@ -50,7 +53,12 @@ export default function UpcomingCompanies() {
           />
         </Dialog>
       </div>
-      <DataTable columns={columns} data={data} />
+      <DataTable
+        columns={columns}
+        data={data}
+        setPage={setPage}
+        totalPage={totalPages}
+      />
     </div>
   );
 }

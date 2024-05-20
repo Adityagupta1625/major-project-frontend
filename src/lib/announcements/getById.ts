@@ -1,12 +1,12 @@
-import { AnnoucementsInterface } from '@/types/annoucements';
+import { AnnouncementsDTO } from '@/types/announcements';
 import axios from 'axios';
+import { getToken } from '../token';
 
-export const getAllAnnoucements = (
-  token: string
-): Promise<AnnoucementsInterface[]> => {
+export const getAnnoucementbyId = (id: string): Promise<AnnouncementsDTO> => {
+  const token = getToken();
   return new Promise((resolve, reject) => {
     axios
-      .get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/announcements`, {
+      .get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/announcements/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

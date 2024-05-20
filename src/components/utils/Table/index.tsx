@@ -12,24 +12,31 @@ import {
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
-  useReactTable
+  useReactTable,
 } from '@tanstack/react-table';
+import { Dispatch, SetStateAction } from 'react';
 import { DataTablePagination } from './pagination';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  setPage: Dispatch<SetStateAction<any>>;
+  totalPage?: number;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  setPage,
+  totalPage,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel()
+    getPaginationRowModel: getPaginationRowModel(),
+    manualPagination: true,
+    pageCount: totalPage,
   });
 
   return (
@@ -84,7 +91,8 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <DataTablePagination table={table} />
+
+      <DataTablePagination table={table} setPage={setPage} />
     </>
   );
 }

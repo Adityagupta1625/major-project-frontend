@@ -26,7 +26,6 @@ export default function Card(props: {
     } catch (e: any) {
       props.setApplied(false);
       toast.error('Error in applying, Retry later: ', e.message);
-      console.log(e);
     }
   };
 

@@ -10,14 +10,14 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { FormType } from '@/constants/all.enum';
-import { deleteAnnoucements } from '@/lib/annoucements/delete';
-import { AnnoucementsInterface } from '@/types/annoucements';
+import { deleteAnnoucements } from '@/lib/announcements/delete';
+import { AnnouncementsDTO } from '@/types/announcements';
 import { IconDots, IconPencil, IconTrash } from '@tabler/icons-react';
 import { ColumnDef } from '@tanstack/react-table';
 import { toast } from 'react-toastify';
-import { AnnoucementsForm } from './form';
+import { AnnouncementsForm } from './form';
 
-export const columns: ColumnDef<AnnoucementsInterface>[] = [
+export const columns: ColumnDef<AnnouncementsDTO>[] = [
   {
     accessorKey: 'title',
     header: 'Title',
@@ -65,7 +65,7 @@ export const columns: ColumnDef<AnnoucementsInterface>[] = [
                     <p className="text-sm">View Details & Edit</p>
                   </p>
                 </DialogTrigger>
-                <AnnoucementsForm
+                <AnnouncementsForm
                   type={FormType.UPDATE}
                   data={{
                     title: row.original.title,

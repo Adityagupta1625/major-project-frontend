@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { ToastContainer } from 'react-toastify';
-import Annoucements from './Annoucement';
+import Announcements from './Announcement';
 import FormSubmissions from './FormSubmission';
 import StudentDetails from './StudentsDetails';
 import UpcomingCompanies from './UpcomingCompanies';
@@ -15,7 +15,7 @@ export default function AdminDashboard() {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [desktopSidebarOpen, setDesktopSidebarOpen] = useState(true);
   const [sideBarState, setSideBarState] = useState(SideBarStates.Dashboard);
-  const [cookies, setCookies] = useCookies(['token']);
+  const [cookies] = useCookies(['token']);
   const router = useRouter();
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export default function AdminDashboard() {
       router.push('/login');
     }
 
-    getUser(cookies.token)
+    getUser()
       .then((data: User) => {
         if (data.role !== Roles.TPO) {
           router.push('/');
@@ -40,11 +40,10 @@ export default function AdminDashboard() {
           }
         }
       })
-      .catch((e) => {
-        console.log(e);
+      .catch(() => {
         router.push('/login');
       });
-  }, []);
+  });
 
   return (
     <>
@@ -340,7 +339,7 @@ export default function AdminDashboard() {
           {sideBarState === SideBarStates.Dashboard ? (
             <UpcomingCompanies></UpcomingCompanies>
           ) : sideBarState === SideBarStates.Annoucement ? (
-            <Annoucements></Annoucements>
+            <Announcements></Announcements>
           ) : sideBarState === SideBarStates.StudentDetails ? (
             <StudentDetails></StudentDetails>
           ) : (

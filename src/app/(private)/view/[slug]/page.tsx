@@ -1,15 +1,15 @@
 'use client';
-import DetailPage from '@/components/Dashboard/Annoucements/detail';
+import DetailPage from '@/components/Dashboard/Announcements/detail';
 import Navbar from '@/components/Navbar';
-import { getAnnoucementbyId } from '@/lib/annoucements/getById';
-import { AnnoucementsInterface } from '@/types/annoucements';
+import { getAnnoucementbyId } from '@/lib/announcements/getById';
+import { AnnouncementsDTO } from '@/types/announcements';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 
 export default function AnnoucementsPage() {
   const [cookies, setCookies] = useCookies(['token']);
-  const [data, setData] = useState<AnnoucementsInterface>({
+  const [data, setData] = useState<AnnouncementsDTO>({
     title: '',
     description: '',
     doc: '',
@@ -19,14 +19,12 @@ export default function AnnoucementsPage() {
   const params = useParams<{ slug: string }>();
 
   useEffect(() => {
-    getAnnoucementbyId(cookies.token, params.slug)
+    getAnnoucementbyId(params.slug)
       .then((res) => {
         setData(res);
       })
-      .catch((e) => {
-        console.log(e);
-      });
-  }, []);
+      .catch((e) => {});
+  });
 
   return (
     <>

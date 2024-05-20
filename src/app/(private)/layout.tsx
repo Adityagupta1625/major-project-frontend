@@ -15,22 +15,21 @@ export default function StudentLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  const [cookies, setCookies] = useCookies(['token']);
+  const [cookies] = useCookies(['token']);
 
   useEffect(() => {
     if (cookies.token === undefined) {
       router.push('/login');
     }
 
-    getUser(cookies.token)
+    getUser()
       .then((data: User) => {
         sessionStorage.setItem('user', JSON.stringify(data));
       })
-      .catch((e) => {
-        console.log(e);
+      .catch(() => {
         router.push('/login');
       });
-  }, []);
+  });
 
   return (
     <html lang="en">

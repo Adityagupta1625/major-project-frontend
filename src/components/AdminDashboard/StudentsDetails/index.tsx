@@ -1,23 +1,24 @@
 import { getAllUserProfile } from '@/lib/userProfile/getAll';
 import { UserProfileInput } from '@/types/userProfile';
 import { useEffect, useState } from 'react';
-import { useCookies } from 'react-cookie';
 import { DataTable } from '../../utils/Table';
 import { columns } from './columns';
 
 export default function StudentDetails() {
   const [data, setData] = useState<UserProfileInput[]>([]);
-  const [cookies, setCookies] = useCookies(['token']);
+  const [page, setPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(0);
 
   useEffect(() => {
-    getAllUserProfile(cookies.token)
+    getAllUserProfile(page)
       .then((result) => {
-        setData(result);
+        setData(result.data);
+        setTotalPages(result.totalPages);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [page]);
 
   return (
     <div className="flex flex-col w-full max-w-10xl p-4 lg:p-8">
@@ -25,7 +26,12 @@ export default function StudentDetails() {
         Student Details
       </h1>
 
-      <DataTable columns={columns} data={data} />
+      <DataTable
+        columns={columns}
+        data={data}
+        setPage={setPage}
+        totalPage={totalPages}
+      />
     </div>
   );
 }
