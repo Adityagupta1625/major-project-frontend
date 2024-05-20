@@ -90,9 +90,9 @@ Devised a multifaceted solution to tackle the manual data collection challenges 
    yarn
    ```
 
-4. **Create a `.env` file:**
+4. **Create a `.env.local` file:**
 
-   Create a `.env` file in the root of your project and add the following:
+   Create a `.env.local` file in the root of your project and add the following:
 
    ```env
    NEXT_PUBLIC_API_URL=your-api-url
@@ -108,5 +108,15 @@ Devised a multifaceted solution to tackle the manual data collection challenges 
 
 - Live URL: https://major-project-frontend-rho.vercel.app/
 - Backend URL: https://github.com/Adityagupta1625/major-project-backend
+
+## Creds For Testing Live:
+
+### Admin Dashboard
+ - username: ctp.bt.ip@nitj.ac.in
+ - password: 12345678
+
+### User Dashboard
+ - username: adityag.ip.20@nitj.ac.in
+ - password: 123456
 
 
