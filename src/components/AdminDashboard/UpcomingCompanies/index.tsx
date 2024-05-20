@@ -20,7 +20,7 @@ export default function UpcomingCompanies() {
         setTotalPages(result.totalPages);
       })
       .catch(() => {});
-  }, []);
+  }, [page]);
 
   return (
     <div className="flex flex-col w-full max-w-10xl p-4 lg:p-8">

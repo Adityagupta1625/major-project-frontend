@@ -6,7 +6,6 @@ import { getUserProfile } from '@/lib/userProfile/get';
 import { User } from '@/types/user';
 import { UserProfileInput } from '@/types/userProfile';
 import { useEffect, useState } from 'react';
-import { useCookies } from 'react-cookie';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import UserProfileForm from './userDetails';
@@ -15,7 +14,6 @@ export default function UserProfile() {
   const [newPassword, setNewPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [user, setUser] = useState<User | null>(null);
-  const [cookies, setCookies] = useCookies(['token']);
   const [userProfile, setUserProfile] = useState<UserProfileInput | null>(null);
 
   useEffect(() => {

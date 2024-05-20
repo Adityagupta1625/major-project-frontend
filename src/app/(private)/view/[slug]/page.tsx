@@ -19,12 +19,12 @@ export default function AnnoucementsPage() {
   const params = useParams<{ slug: string }>();
 
   useEffect(() => {
-    getAnnoucementbyId(cookies.token, params.slug)
+    getAnnoucementbyId(params.slug)
       .then((res) => {
         setData(res);
       })
       .catch((e) => {});
-  }, []);
+  });
 
   return (
     <>

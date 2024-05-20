@@ -14,7 +14,7 @@ export default function CSVModal(props: { companyId: string }) {
         setCSVData(result);
       })
       .catch();
-  }, []);
+  }, [props.companyId]);
   return (
     <DialogContent className="sm:max-w-[435px]">
       <DialogHeader>
