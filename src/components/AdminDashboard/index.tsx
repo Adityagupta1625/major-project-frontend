@@ -41,7 +41,6 @@ export default function AdminDashboard() {
         }
       })
       .catch((e) => {
-        console.log(e);
         router.push('/login');
       });
   }, []);

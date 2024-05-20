@@ -29,9 +29,7 @@ export default function UserProfile() {
           setUserProfile(result);
         }
       })
-      .catch((e) => {
-        console.log(e);
-      });
+      .catch();
   }, []);
 
   const handleResetPassword = async (
@@ -51,7 +49,6 @@ export default function UserProfile() {
       setNewPassword('');
     } catch (e: any) {
       toast.error(e?.message);
-      console.log(e);
     }
   };
 

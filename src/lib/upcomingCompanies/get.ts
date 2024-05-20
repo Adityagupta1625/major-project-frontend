@@ -4,7 +4,10 @@ import { getToken } from '../token';
 
 export const getAllUpcomingCompanies = (
   page: number
-): Promise<UpcomingCompaniesDTO[]> => {
+): Promise<{
+  totalPages: number;
+  data: UpcomingCompaniesDTO[];
+}> => {
   const token = getToken();
   return new Promise((resolve, reject) => {
     axios

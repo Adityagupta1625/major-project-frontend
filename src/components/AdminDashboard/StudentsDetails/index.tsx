@@ -7,11 +7,13 @@ import { columns } from './columns';
 export default function StudentDetails() {
   const [data, setData] = useState<UserProfileInput[]>([]);
   const [page, setPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(0);
 
   useEffect(() => {
     getAllUserProfile(page)
       .then((result) => {
-        setData(result);
+        setData(result.data);
+        setTotalPages(result.totalPages);
       })
       .catch((err) => {
         console.log(err);
@@ -24,7 +26,12 @@ export default function StudentDetails() {
         Student Details
       </h1>
 
-      <DataTable columns={columns} data={data} setPage={setPage} />
+      <DataTable
+        columns={columns}
+        data={data}
+        setPage={setPage}
+        totalPage={totalPages}
+      />
     </div>
   );
 }

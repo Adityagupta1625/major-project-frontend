@@ -36,9 +36,7 @@ export function UpdateStatusForm(props: updateStatusFormProps) {
         toast.success('Successfully Updated Status');
         window.location.reload();
       })
-      .catch((e) => {
-        console.log(e);
-      });
+      .catch(() => {});
   };
 
   return (

@@ -11,11 +11,13 @@ import { AnnouncementsForm } from './form';
 export default function Announcements() {
   const [data, setData] = useState<AnnouncementsDTO[]>([]);
   const [page, setPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(0);
 
   useEffect(() => {
     getAllAnnouncements(page)
       .then((result) => {
-        setData(result);
+        setData(result.data);
+        setTotalPages(result.totalPages);
       })
       .catch(() => {});
   }, [page]);
@@ -45,7 +47,12 @@ export default function Announcements() {
           />
         </Dialog>
       </div>
-      <DataTable columns={columns} data={data} setPage={setPage} />
+      <DataTable
+        columns={columns}
+        data={data}
+        setPage={setPage}
+        totalPage={totalPages}
+      />
     </div>
   );
 }

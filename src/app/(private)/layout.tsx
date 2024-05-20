@@ -27,7 +27,6 @@ export default function StudentLayout({
         sessionStorage.setItem('user', JSON.stringify(data));
       })
       .catch((e) => {
-        console.log(e);
         router.push('/login');
       });
   }, []);

@@ -52,8 +52,7 @@ export default function UserProfileForm(props: {
         reset({ ...result });
         window.location.reload();
       })
-      .catch((e) => {
-        console.log(e);
+      .catch(() => {
         toast.error('failed to set data, Try again Later!!');
       });
   };

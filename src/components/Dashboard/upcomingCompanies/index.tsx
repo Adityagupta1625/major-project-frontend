@@ -1,5 +1,6 @@
 'use client';
-import { getAllUpcomingCompanies } from '@/lib/upcomingCompanies/get';
+import PaginationComponent from '@/components/utils/pagination';
+import { getAllCompaniesToApply } from '@/lib/upcomingCompanies/getToApply';
 import { UpcomingCompaniesDTO } from '@/types/upcomingCompanies';
 import { useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
@@ -12,14 +13,16 @@ export default function UpcomingCompanies() {
     Array<UpcomingCompaniesDTO>
   >([]);
   const [page, setPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(0);
 
   useEffect(() => {
-    getAllUpcomingCompanies(page)
-      .then((result: UpcomingCompaniesDTO[]) => {
-        setUpcomingCompanies(result);
+    getAllCompaniesToApply(page)
+      .then((result) => {
+        setUpcomingCompanies(result.data);
+        setTotalPages(result.totalPages);
       })
       .catch(() => {});
-  }, []);
+  }, [page]);
 
   return (
     <>
@@ -59,6 +62,13 @@ export default function UpcomingCompanies() {
             );
           })}
         </div>
+      </div>
+      <div className="flex items-center">
+        <PaginationComponent
+          page={page}
+          setPage={setPage}
+          totalPages={totalPages}
+        />
       </div>
     </>
   );

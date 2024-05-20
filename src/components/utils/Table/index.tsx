@@ -21,18 +21,22 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   setPage: Dispatch<SetStateAction<any>>;
+  totalPage?: number;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   setPage,
+  totalPage,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    manualPagination: true,
+    pageCount: totalPage,
   });
 
   return (
@@ -87,6 +91,7 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
+
       <DataTablePagination table={table} setPage={setPage} />
     </>
   );

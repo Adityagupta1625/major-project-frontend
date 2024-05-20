@@ -7,15 +7,15 @@ import { columns } from './columns';
 export default function FormSubmissions() {
   const [data, setData] = useState<SubmissionDetailsByCompany[]>([]);
   const [page, setPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(0);
 
   useEffect(() => {
     getAllSubmissions(page)
       .then((result) => {
-        setData(result);
+        setData(result.data);
+        setTotalPages(result.totalPages);
       })
-      .catch((e) => {
-        console.log(e);
-      });
+      .catch();
   }, [page]);
 
   return (
@@ -24,7 +24,12 @@ export default function FormSubmissions() {
         Student Details
       </h1>
 
-      <DataTable columns={columns} data={data} setPage={setPage} />
+      <DataTable
+        columns={columns}
+        data={data}
+        setPage={setPage}
+        totalPage={totalPages}
+      />
     </div>
   );
 }

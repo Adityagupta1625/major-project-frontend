@@ -11,11 +11,13 @@ import { UpcomingCompaniesForm } from './form';
 export default function UpcomingCompanies() {
   const [data, setData] = useState<UpcomingCompaniesDTO[]>([]);
   const [page, setPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(0);
 
   useEffect(() => {
     getAllUpcomingCompanies(page)
       .then((result) => {
-        setData(result);
+        setData(result.data);
+        setTotalPages(result.totalPages);
       })
       .catch(() => {});
   }, []);
@@ -51,7 +53,12 @@ export default function UpcomingCompanies() {
           />
         </Dialog>
       </div>
-      <DataTable columns={columns} data={data} setPage={setPage} />
+      <DataTable
+        columns={columns}
+        data={data}
+        setPage={setPage}
+        totalPage={totalPages}
+      />
     </div>
   );
 }

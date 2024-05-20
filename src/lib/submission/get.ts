@@ -4,7 +4,10 @@ import { getToken } from '../token';
 
 export const getAllSubmissions = (
   page: number
-): Promise<SubmissionDetailsByCompany[]> => {
+): Promise<{
+  data: SubmissionDetailsByCompany[];
+  totalPages: number;
+}> => {
   const token = getToken();
 
   return new Promise((resolve, reject) => {
